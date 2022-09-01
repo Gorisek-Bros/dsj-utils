@@ -5,8 +5,13 @@
       <span class="absolute bg-blue-600 px-2 rounded-full text-xs text-white">BETA</span>
     </span>
     <div class="flex-grow" />
-    <NuxtLink to="/" class="font-medium">
-      Image to XML
-    </NuxtLink>
+    <div class="flex gap-4">
+      <NuxtLink to="/" class="font-medium hover:underline">
+        Image to XML
+      </NuxtLink>
+      <NuxtLink to="/obj2xml" class="font-medium hover:underline">
+        Obj to XML
+      </NuxtLink>
+    </div>
   </nav>
 </template>
