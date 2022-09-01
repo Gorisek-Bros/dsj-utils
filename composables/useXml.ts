@@ -1,0 +1,42 @@
+import { create } from 'xmlbuilder2'
+import type { CustomMarkings } from '~~/types/Marking'
+
+export default function () {
+  function generateXml(context: CanvasRenderingContext2D, width: number, height: number) {
+    const { getPixels } = useImage()
+    const { getOriginCoordinates } = useImage()
+
+    const pixels = getPixels(context, width, height)
+    let [x0, y0] = getOriginCoordinates(width, height)
+    const output: CustomMarkings = {
+      'custom-markings': {
+        summer: {
+          banner: [],
+        },
+      },
+    }
+
+    for (let i = 0; i < pixels.length; i++) {
+      for (let j = 0; j < pixels[i].length; j++) {
+        output['custom-markings'].summer.banner.push({
+          '@d1': Math.round(y0 + 1),
+          '@d2': Math.round(y0 + 1),
+          '@z1': Math.round(x0),
+          '@z2': Math.round(++x0),
+          '@c': pixels[i][j],
+          '@side': 'custom',
+          '@w': 1,
+        })
+      }
+
+      x0 = (-width / (2 / 1)) + 0
+      y0 += 1
+    }
+
+    return create(output).end({ prettyPrint: true })
+  }
+
+  return {
+    generateXml,
+  }
+}
