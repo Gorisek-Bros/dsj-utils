@@ -12,7 +12,6 @@ const previews = ref([])
 function drawImage() {
   const context = canvas.value.getContext('2d')
   context.drawImage(img.value, 0, 0, img.value.width, img.value.height)
-  console.log(generateXml(context, img.value.width, img.value.height))
 }
 
 watch(files, async () => {
@@ -35,7 +34,7 @@ watch(files, async () => {
         </ul>
         <span v-else>Awaiting...</span>
         <div class="flex gap-1">
-          <DialogButton class="bg-blue-500 rounded text-white px-4 py-2">
+          <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
             Upload file
           </DialogButton>
         </div>
