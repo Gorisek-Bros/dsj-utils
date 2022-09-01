@@ -19,14 +19,16 @@ export default function () {
     for (let i = 0; i < pixels.length; i++) {
       for (let j = 0; j < pixels[i].length; j++) {
         output['custom-markings'].summer.banner.push({
-          '@d1': Math.round(y0 + 1),
+          '@d1': Math.round(y0),
           '@d2': Math.round(y0 + 1),
           '@z1': Math.round(x0),
-          '@z2': Math.round(++x0),
-          '@c': pixels[i][j],
+          '@z2': Math.round(x0 + (1 * pixels[i][j].length)),
+          '@c': pixels[i][j][0],
           '@side': 'custom',
           '@w': 1,
         })
+
+        x0 += 1 * pixels[i][j].length
       }
 
       x0 = (-width / (2 / 1)) + 0

@@ -1,3 +1,5 @@
+import { chunk, groupBySame } from '~~/utils/array'
+
 export default function () {
   function rgbToHex(r: number, g: number, b: number): string {
     return `#${[r, g, b].map((x) => {
@@ -14,11 +16,6 @@ export default function () {
     const imageData = context.getImageData(0, 0, width, height)
     const pixels: string[] = []
 
-    function* chunk(array: any[], n: number) {
-      for (let i = 0; i < array.length; i += n)
-        yield array.slice(i, i + n)
-    }
-
     for (let i = 0; i < imageData.data.length; i += 4) {
       const red = imageData.data[i]
       const green = imageData.data[i + 1]
@@ -27,7 +24,7 @@ export default function () {
       pixels.push(rgbToHex(red, green, blue))
     }
 
-    return [...chunk(pixels, imageData.width)]
+    return [...chunk(pixels, imageData.width)].map(x => groupBySame(x))
   }
 
   async function toBlob(file: File) {
