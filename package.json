@@ -16,8 +16,11 @@
     "nuxt": "3.0.0-rc.8"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.1",
     "@types/wicg-file-system-access": "^2020.9.5",
     "@unocss/reset": "^0.45.13",
+    "@vueuse/nuxt": "^9.1.1",
+    "pinia": "^2.0.21",
     "vue3-file-selector": "^1.0.3",
     "xmlbuilder2": "^3.0.2"
   }
