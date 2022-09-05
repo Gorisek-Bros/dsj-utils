@@ -6,6 +6,9 @@
     </span>
     <div class="flex-grow" />
     <div class="flex gap-4">
+      <NuxtLink to="/windchart" class="font-medium hover:underline">
+        Wind Chart
+      </NuxtLink>
       <NuxtLink to="/hncalc" class="font-medium hover:underline">
         H/N Calculator
       </NuxtLink>

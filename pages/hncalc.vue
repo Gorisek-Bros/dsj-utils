@@ -82,7 +82,7 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
       <base-input v-model="form.k" label="Construction point" description="k-point" type="number" required />
     </div>
     <div class="mb-3">
-      <base-input v-model="form.h2n" label="H/N value" description="max-hn" type="number" required info="It is suggested to use value between 0.51 and 0.61" />
+      <base-input v-model="form.h2n" label="H/N value" min="0.51" max="0.61" step="0.01" description="max-hn" type="number" required info="It is suggested to use value between 0.51 and 0.61" />
     </div>
   </aside>
 </template>
