@@ -4,17 +4,17 @@ definePageMeta({
 })
 
 const form = reactive({
-  wind: null,
-  default: null,
-  minGate: null,
-  maxGate: null,
+  wind: null as number,
+  default: null as number,
+  minGate: null as number,
+  maxGate: null as number,
 })
 
 watch((form), () => {
   calculate()
 })
 
-function getCoordinates(e) {
+function getCoordinates(e: MouseEvent) {
   const rect = document.getElementById('chart').getBoundingClientRect()
   const x = (e.clientX - rect.left - 400) / 160
   const y = (-1 * (e.clientY - rect.top - 400)) / 160
@@ -24,7 +24,7 @@ function getCoordinates(e) {
   document.getElementById('windSpeed').innerHTML = (Math.round(windSpeed * 100) / 100).toString()
 }
 
-function getDirection(x, y) {
+function getDirection(x: number, y: number) {
   return Math.round(Math.asin(y / Math.sqrt(x * x + y * y)) * (180 / Math.PI) + 90)
 }
 
@@ -34,11 +34,11 @@ function calculate() {
   const svg = document.getElementById('chart')
   for (let gate = form.minGate; gate <= form.maxGate; gate++) {
     let low = (gate - form.default - 0.5) / form.wind * 100
-    if (gate == form.minGate && low > -200)
+    if (gate === form.minGate && low > -200)
       low = -200
 
     let high = (gate - form.default + 0.5) / form.wind * 100
-    if (gate == form.maxGate && high < 200)
+    if (gate === form.maxGate && high < 200)
       high = 200
 
     if (low < 200 && high > -200) {
@@ -100,10 +100,7 @@ function calculate() {
     </div>
     <div class="mb-3">
       <base-input v-model="form.wind" step="0.01" min="0" label="Hill definition wind" description="wind" type="number" />
-      <base-input
-        v-model="form.default" min="0" label="Hill definition default gate" description="default"
-        type="number"
-      />
+      <base-input v-model="form.default" min="0" label="Hill definition default gate" description="default" type="number" />
       <base-input v-model="form.minGate" min="0" label="Hill definition min gate" description="min-gate" type="number" />
       <base-input v-model="form.maxGate" min="0" label="Hill definition max gate" description="max-gate" type="number" />
       Wind direction: <span id="windDirection">0</span><br>
