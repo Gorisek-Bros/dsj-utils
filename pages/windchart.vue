@@ -68,7 +68,7 @@ function calculate() {
         <h1 class="text-3xl font-bold mt-5 mb-1">
             Wind Chart
         </h1>
-        <p>Use this utility to setup gates in your hill.</p>
+        <p>Use this utility to setup gates in your hill. Hover on chart to see wind direction and speed.</p>
         <div class="mt-6">
             <svg width="800" height="800" viewBox="-250 -250 500 500" id="chart" @mousemove="getCoordinates" @load="calculate">
                 <defs>
@@ -100,11 +100,11 @@ function calculate() {
             <hr class="h-1 w-full">
         </div>
         <div class="mb-3">
-            <base-input v-model="form.wind" step="0.01" min="0" label="Hill definition wind" description="wind" type="number" />
-            <base-input v-model="form.default" min="0" label="Hill definition default gate" description="default"
+            <base-input required v-model="form.wind" step="0.01" min="0" label="Hill definition wind" description="wind" type="number" />
+            <base-input required v-model="form.default" min="0" label="Hill definition default gate" description="default"
                 type="number" />
-            <base-input v-model="form.minGate" min="0" label="Hill definition min gate" description="min-gate" type="number" />
-            <base-input v-model="form.maxGate" min="0" label="Hill definition max gate" description="max-gate" type="number" />
+            <base-input required v-model="form.minGate" min="0" label="Hill definition min gate" description="min-gate" type="number" />
+            <base-input required v-model="form.maxGate" min="0" label="Hill definition max gate" description="max-gate" type="number" />
             Wind direction: <span id="windDirection">0</span><br>
             Wind speed: <span id="windSpeed">0</span>
         </div>
