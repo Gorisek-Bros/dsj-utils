@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogButton, Dropzone, FileSelector } from 'vue3-file-selector'
+import { DialogButton, FileSelector } from 'vue3-file-selector'
 import type { Settings } from '~~/types/Settings'
 
 const { toBlob } = useImage()
@@ -20,6 +20,17 @@ const settings = reactive<Settings>({
 const files = ref([])
 const previews = ref([])
 
+watch(() => settings.scalingFactor, async () => {
+  const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
+  const context = canvas.value.getContext('2d')
+
+  canvas.value.width = image.width
+  canvas.value.height = image.height
+
+  context.clearRect(0, 0, canvas.value.width, canvas.value.height)
+  context.drawImage(image, 0, 0, image.width, image.height)
+})
+
 const source = ref<string>(null)
 function drawImage() {
   canvas.value.width = img.value.naturalWidth
@@ -35,7 +46,7 @@ watch(files, async () => {
 })
 
 function onSubmit() {
-  source.value = generateXml(canvas.value.getContext('2d'), settings, img.value.width, img.value.height)
+  source.value = generateXml(canvas.value.getContext('2d'), settings, canvas.value.width, canvas.value.height)
   const { copy } = useClipboard({ source })
   copy()
 }
@@ -44,26 +55,25 @@ function onSubmit() {
 <template>
   <div>
     <navbar />
-    <main class="flex items-center justify-center min-h-[calc(100vh-61px)]">
-      <section class="w-2/3 h-full">
+    <main class="flex items-center justify-center h-[calc(100vh-61px)] top-[61px]">
+      <section class="w-2/3 p-4 h-full">
         <FileSelector v-model="files" :allow-multiple="false">
-          <Dropzone class="h-full">
-            <div class="block border-r flex flex-col justify-center items-center h-full">
-              <canvas ref="canvas" class="mb-4" />
-              <img ref="img" :src="previews[0]" class="hidden" @load="drawImage">
-              <ul v-if="files.length > 0" class="mb-2">
-                <li v-for="file in files" :key="file.name">
-                  {{ file.name }}
-                </li>
-              </ul>
-              <span v-else class="mb-2">Awaiting...</span>
-              <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
-                Upload file
-              </DialogButton>
-            </div>
-          </Dropzone>
+          <div class="block flex flex-col justify-center items-center h-full">
+            <canvas ref="canvas" class="mb-4" />
+            <img ref="img" :src="previews[0]" class="hidden" @load="drawImage">
+            <ul v-if="files.length > 0" class="mb-2">
+              <li v-for="file in files" :key="file.name">
+                {{ file.name }}
+              </li>
+            </ul>
+            <span v-else class="mb-2">Awaiting...</span>
+            <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
+              Upload file
+            </DialogButton>
+          </div>
         </FileSelector>
       </section>
+      <hr class="h-full border-r">
       <aside class="w-1/3 p-4 h-full">
         <div class="flex gap-4 items-center mb-4">
           <span class="flex gap-2 items-center">
@@ -74,7 +84,7 @@ function onSubmit() {
         </div>
         <form class="flex flex-col gap-1" @submit.prevent="onSubmit">
           <base-input v-model.number="settings.pixelSize" step="0.01" label="Pixel size" description="pixel-size" type="number" required />
-          <base-input v-model.number="settings.scalingFactor" label="Scaling factor" description="scaling-factor" type="number" required />
+          <base-input v-model.number="settings.scalingFactor" label="Scaling factor" description="scaling-factor" type="number" required min="0" />
           <div class="flex gap-1">
             <div class="w-1/2">
               <base-input v-model.number="settings.originDistance.x" label="Origin distance relative to X axis" description="origin-x" type="number" required />
