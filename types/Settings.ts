@@ -4,7 +4,7 @@ interface Settings {
   ignoreColor: string
   pixelSize: number
   useColor: string
-  tags: Array<'banner' | 'line' | 'spray' | 'twigs'>
+  tags: Record<'banner' | 'line' | 'spray' | 'twigs', boolean>
 }
 
 interface OriginDistance {

@@ -16,7 +16,12 @@ const settings = reactive<Settings>({
   pixelSize: 1,
   scalingFactor: 1,
   useColor: '#ffffff',
-  tags: [],
+  tags: {
+    banner: false,
+    line: false,
+    spray: false,
+    twigs: false,
+  },
 })
 const files = ref([])
 const previews = ref([])
@@ -105,16 +110,16 @@ function onSubmit() {
           </div>
           <div class="flex gap-4 mb-4">
             <div class="flex items-center flex-row-reverse gap-1">
-              <base-input v-model="settings.tags" value="banner" type="checkbox" label="Banner" />
+              <base-checkbox v-model.boolean="settings.tags.banner" label="Banner" />
             </div>
             <div class="flex items-center flex-row-reverse gap-1">
-              <base-input v-model="settings.tags" value="line" type="checkbox" label="Line" />
+              <base-checkbox v-model.boolean="settings.tags.line" label="Line" />
             </div>
             <div class="flex items-center flex-row-reverse gap-1">
-              <base-input v-model="settings.tags" value="spray" type="checkbox" label="Spray" />
+              <base-checkbox v-model.boolean="settings.tags.spray" label="Spray" />
             </div>
             <div class="flex items-center flex-row-reverse gap-1">
-              <base-input v-model="settings.tags" value="twigs" type="checkbox" label="Twigs" />
+              <base-checkbox v-model.boolean="settings.tags.twigs" label="Twigs" />
             </div>
           </div>
           <button :disabled="previews.length === 0" type="submit" class="text-blue-600 border-blue-600 rounded px-4 py-2 border disabled:text-blue-400 disabled:border-blue-400">

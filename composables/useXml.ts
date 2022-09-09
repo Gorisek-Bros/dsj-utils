@@ -29,7 +29,7 @@ export default function () {
           continue
         }
 
-        if (settings.tags.includes('banner')) {
+        if (settings.tags.banner) {
           output['custom-markings'].summer.banner.push({
             '@d1': Math.round(y0 * 100) / 100,
             '@d2': Math.round((y0 + settings.pixelSize) * 100) / 100,
@@ -41,7 +41,7 @@ export default function () {
           })
         }
 
-        if (settings.tags.includes('line') || settings.tags.includes('spray')) {
+        if (settings.tags.line || settings.tags.spray) {
           const item: Line | Spray = {
             '@d': Math.round(y0 * 100) / 100,
             '@z1': Math.round(x0 * 100) / 100,
@@ -50,9 +50,9 @@ export default function () {
             '@w': settings.pixelSize,
           }
 
-          if (settings.tags.includes('line'))
+          if (settings.tags.line)
             output['custom-markings'].summer.line.push(item)
-          if (settings.tags.includes('spray'))
+          if (settings.tags.spray)
             output['custom-markings'].winter.spray.push(item)
         }
 
