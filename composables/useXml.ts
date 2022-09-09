@@ -4,10 +4,12 @@ import type { Settings } from '~~/types/Settings'
 
 export default function () {
   function generateXml(context: CanvasRenderingContext2D, settings: Settings, width: number, height: number) {
-    const { getPixels } = useImage()
+    const { getPixels, mergePixels, monocolorPixels } = useImage()
     const { getOriginCoordinates } = useImage()
 
-    const pixels = getPixels(context, width, height)
+    const initialPixels = getPixels(context, width, height)
+    const pixels = mergePixels(initialPixels)
+
     let [x0, y0] = getOriginCoordinates(settings, width, height)
     const output: CustomMarkings = {
       'custom-markings': {
@@ -20,6 +22,32 @@ export default function () {
           spray: [],
         },
       },
+    }
+
+    if (settings.tags.twigs) {
+      const monocoloredPixels: string[][][] = monocolorPixels(settings, initialPixels)
+      console.log(initialPixels)
+      for (let i = 0; i < monocoloredPixels.length; i++) {
+        for (let j = 0; j < monocoloredPixels[i].length; j++) {
+          if (monocoloredPixels[i][j].every(x => x === null)) {
+            x0 += settings.pixelSize * monocoloredPixels[i][j].length
+            continue
+          }
+
+          output['custom-markings'].winter.twigs.push({
+            '@d': Math.round(y0 * 100) / 100,
+            '@size': settings.pixelSize,
+            '@space': settings.pixelSize,
+            '@z1': Math.round(x0 * 100) / 100,
+            '@z2': Math.round((x0 + settings.pixelSize * monocoloredPixels[i][j].length) * 100) / 100,
+          })
+
+          x0 += settings.pixelSize * monocoloredPixels[i][j].length
+        }
+
+        x0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
+        y0 += settings.pixelSize
+      }
     }
 
     for (let i = 0; i < pixels.length; i++) {
