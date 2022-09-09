@@ -20,19 +20,16 @@ export default function () {
       const red = imageData.data[i]
       const green = imageData.data[i + 1]
       const blue = imageData.data[i + 2]
-      // const alpha = data[i + 3]
-      pixels.push(rgbToHex(red, green, blue))
+      const alpha = imageData.data[i + 3]
+      if (red !== 0 && green !== 0 && blue !== 0 && alpha !== 0)
+        pixels.push(rgbToHex(red, green, blue))
     }
 
     return [...chunk(pixels, imageData.width)].map(x => groupBySame(x))
   }
 
   async function toBlob(file: File) {
-    const buffer = await file.arrayBuffer()
-    const blob = new Blob([buffer])
-    const srcBlob = URL.createObjectURL(blob)
-
-    return srcBlob
+    return URL.createObjectURL(new Blob([await file.arrayBuffer()]))
   }
 
   return {

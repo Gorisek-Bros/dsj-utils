@@ -19,9 +19,13 @@ const settings = reactive({
 const files = ref([])
 const previews = ref([])
 
+const source = ref<string>(null)
 function drawImage() {
+  canvas.value.width = img.value.naturalWidth
+  canvas.value.height = img.value.naturalHeight
   const context = canvas.value.getContext('2d')
-  context.drawImage(img.value, 0, 0, img.value.width, img.value.height)
+  context.drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
+  source.value = generateXml(canvas.value.getContext('2d'), settings, img.value.width, img.value.height)
 }
 
 watch(files, async () => {
@@ -30,32 +34,25 @@ watch(files, async () => {
   )
 })
 
-const source = ref<string>(null)
-watch((img), () => {
-  if (img.value)
-    source.value = generateXml(canvas.value.getContext('2d'), settings, img.value.width, img.value.height)
-    console.log(source.value)
-})
-
 const { copy } = useClipboard({ source })
 </script>
 
 <template>
   <div>
     <navbar />
-    <main class="flex items-center justify-center h-[calc(100vh-61px)]">
+    <main class="flex items-center justify-center min-h-[calc(100vh-61px)]">
       <section class="w-2/3 h-full">
         <FileSelector v-model="files" :allow-multiple="false">
           <Dropzone class="h-full">
-            <div class="block border-r flex flex-col space-y-4 justify-center items-center h-full">
+            <div class="block border-r flex flex-col justify-center items-center h-full">
               <canvas ref="canvas" class="hidden" />
-              <img ref="img" :src="previews[0]" @load="drawImage">
-              <ul v-if="files.length > 0">
+              <img ref="img" :src="previews[0]" class="mb-4" @load="drawImage">
+              <ul v-if="files.length > 0" class="mb-2">
                 <li v-for="file in files" :key="file.name">
                   {{ file.name }}
                 </li>
               </ul>
-              <span v-else>Awaiting...</span>
+              <span v-else class="mb-2">Awaiting...</span>
               <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
                 Upload file
               </DialogButton>
@@ -90,7 +87,7 @@ const { copy } = useClipboard({ source })
               <base-input v-model="settings.useColor" label="Use single color" description="use-color" type="color" />
             </div>
           </div>
-          <button type="submit" class="text-blue-600 border-blue-600 rounded px-4 py-2 border">
+          <button :disabled="previews.length === 0" type="submit" class="text-blue-600 border-blue-600 rounded px-4 py-2 border disabled:text-blue-400 disabled:border-blue-400">
             Generate XML
           </button>
         </form>

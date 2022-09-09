@@ -9,7 +9,7 @@ function groupBySame(array: any[]) {
       r[r.length - 1].push(v)
 
     else
-      r.push(v === a[i + 1] ? [v] : v)
+      r.push([v])
 
     return r
   }, [])

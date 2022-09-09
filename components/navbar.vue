@@ -1,5 +1,5 @@
 <template>
-  <nav class="px-6 py-4 flex items-center bg-white border-b">
+  <nav class="px-6 py-4 flex items-center bg-white border-b sticky top-0">
     <span class="font-semibold text-xl relative">
       DSJ4 Utils
       <span class="absolute bg-blue-600 px-2 rounded-full text-xs text-white">BETA</span>
