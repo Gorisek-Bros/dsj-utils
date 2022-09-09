@@ -16,6 +16,7 @@ const settings = reactive<Settings>({
   pixelSize: 1,
   scalingFactor: 1,
   useColor: '#ffffff',
+  tags: [],
 })
 const files = ref([])
 const previews = ref([])
@@ -46,6 +47,7 @@ watch(files, async () => {
 })
 
 function onSubmit() {
+  console.log(settings)
   source.value = generateXml(canvas.value.getContext('2d'), settings, canvas.value.width, canvas.value.height)
   const { copy } = useClipboard({ source })
   copy()
@@ -99,6 +101,20 @@ function onSubmit() {
             </div>
             <div class="w-1/2">
               <base-input v-model="settings.useColor" label="Use single color" description="use-color" type="color" />
+            </div>
+          </div>
+          <div class="flex gap-4 mb-4">
+            <div class="flex items-center flex-row-reverse gap-1">
+              <base-input v-model="settings.tags" value="banner" type="checkbox" label="Banner" />
+            </div>
+            <div class="flex items-center flex-row-reverse gap-1">
+              <base-input v-model="settings.tags" value="line" type="checkbox" label="Line" />
+            </div>
+            <div class="flex items-center flex-row-reverse gap-1">
+              <base-input v-model="settings.tags" value="spray" type="checkbox" label="Spray" />
+            </div>
+            <div class="flex items-center flex-row-reverse gap-1">
+              <base-input v-model="settings.tags" value="twigs" type="checkbox" label="Twigs" />
             </div>
           </div>
           <button :disabled="previews.length === 0" type="submit" class="text-blue-600 border-blue-600 rounded px-4 py-2 border disabled:text-blue-400 disabled:border-blue-400">

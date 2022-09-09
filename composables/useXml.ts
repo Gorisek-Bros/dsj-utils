@@ -1,5 +1,5 @@
 import { create } from 'xmlbuilder2'
-import type { CustomMarkings } from '~~/types/Marking'
+import type { CustomMarkings, Line, Spray } from '~~/types/Marking'
 import type { Settings } from '~~/types/Settings'
 
 export default function () {
@@ -13,6 +13,11 @@ export default function () {
       'custom-markings': {
         summer: {
           banner: [],
+          line: [],
+        },
+        winter: {
+          twigs: [],
+          spray: [],
         },
       },
     }
@@ -24,15 +29,32 @@ export default function () {
           continue
         }
 
-        output['custom-markings'].summer.banner.push({
-          '@d1': Math.round(y0 * 100) / 100,
-          '@d2': Math.round((y0 + settings.pixelSize) * 100) / 100,
-          '@z1': Math.round(x0 * 100) / 100,
-          '@z2': Math.round((x0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
-          '@c': pixels[i][j][0],
-          '@side': 'custom',
-          '@w': settings.pixelSize,
-        })
+        if (settings.tags.includes('banner')) {
+          output['custom-markings'].summer.banner.push({
+            '@d1': Math.round(y0 * 100) / 100,
+            '@d2': Math.round((y0 + settings.pixelSize) * 100) / 100,
+            '@z1': Math.round(x0 * 100) / 100,
+            '@z2': Math.round((x0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
+            '@c': pixels[i][j][0],
+            '@side': 'custom',
+            '@w': settings.pixelSize,
+          })
+        }
+
+        if (settings.tags.includes('line') || settings.tags.includes('spray')) {
+          const item: Line | Spray = {
+            '@d': Math.round(y0 * 100) / 100,
+            '@z1': Math.round(x0 * 100) / 100,
+            '@z2': Math.round((x0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
+            '@c': pixels[i][j][0],
+            '@w': settings.pixelSize,
+          }
+
+          if (settings.tags.includes('line'))
+            output['custom-markings'].summer.line.push(item)
+          if (settings.tags.includes('spray'))
+            output['custom-markings'].winter.spray.push(item)
+        }
 
         x0 += settings.pixelSize * pixels[i][j].length
       }

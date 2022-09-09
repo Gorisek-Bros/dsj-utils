@@ -9,11 +9,21 @@ interface Banner {
 }
 
 interface Line {
-  d: number
-  z1: number
-  z2: number
-  c: string
-  w: number
+  '@d': number
+  '@z1': number
+  '@z2': number
+  '@c': string
+  '@w': number
+}
+
+interface Spray extends Line { }
+
+interface Twigs {
+  '@d': number
+  '@z1': number
+  '@z2': number
+  '@size': number
+  '@space': number
 }
 
 interface CustomMarkings {
@@ -22,10 +32,17 @@ interface CustomMarkings {
 
 interface Season {
   summer: Summer
+  winter: Winter
 }
 
 interface Summer {
   banner: Banner[]
+  line: Line[]
 }
 
-export { CustomMarkings, Banner, Line }
+interface Winter {
+  twigs: Twigs[]
+  spray: Spray[]
+}
+
+export { CustomMarkings, Banner, Line, Spray, Twigs }
