@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { DialogButton, Dropzone, FileSelector } from 'vue3-file-selector'
+import type { Settings } from '~~/types/Settings'
 
 const { toBlob } = useImage()
 const { generateXml } = useXml()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const img = ref<HTMLImageElement | null>(null)
-const settings = reactive({
+const settings = reactive<Settings>({
   ignoreColor: '#000000',
   originDistance: {
     x: 50,
@@ -25,7 +26,6 @@ function drawImage() {
   canvas.value.height = img.value.naturalHeight
   const context = canvas.value.getContext('2d')
   context.drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
-  source.value = generateXml(canvas.value.getContext('2d'), settings, img.value.width, img.value.height)
 }
 
 watch(files, async () => {
@@ -34,7 +34,11 @@ watch(files, async () => {
   )
 })
 
-const { copy } = useClipboard({ source })
+function onSubmit() {
+  source.value = generateXml(canvas.value.getContext('2d'), settings, img.value.width, img.value.height)
+  const { copy } = useClipboard({ source })
+  copy()
+}
 </script>
 
 <template>
@@ -45,8 +49,8 @@ const { copy } = useClipboard({ source })
         <FileSelector v-model="files" :allow-multiple="false">
           <Dropzone class="h-full">
             <div class="block border-r flex flex-col justify-center items-center h-full">
-              <canvas ref="canvas" class="hidden" />
-              <img ref="img" :src="previews[0]" class="mb-4" @load="drawImage">
+              <canvas ref="canvas" class="mb-4" />
+              <img ref="img" :src="previews[0]" class="hidden" @load="drawImage">
               <ul v-if="files.length > 0" class="mb-2">
                 <li v-for="file in files" :key="file.name">
                   {{ file.name }}
@@ -68,15 +72,15 @@ const { copy } = useClipboard({ source })
           </span>
           <hr class="h-1 w-full">
         </div>
-        <form class="flex flex-col gap-1" @submit.prevent="copy()">
-          <base-input v-model="settings.pixelSize" label="Pixel size" description="pixel-size" type="number" required />
-          <base-input v-model="settings.scalingFactor" label="Scaling factor" description="scaling-factor" type="number" required />
+        <form class="flex flex-col gap-1" @submit.prevent="onSubmit">
+          <base-input v-model.number="settings.pixelSize" step="0.01" label="Pixel size" description="pixel-size" type="number" required />
+          <base-input v-model.number="settings.scalingFactor" label="Scaling factor" description="scaling-factor" type="number" required />
           <div class="flex gap-1">
             <div class="w-1/2">
-              <base-input v-model="settings.originDistance.x" label="Origin distance relative to X axis" description="origin-x" type="number" required />
+              <base-input v-model.number="settings.originDistance.x" label="Origin distance relative to X axis" description="origin-x" type="number" required />
             </div>
             <div class="w-1/2">
-              <base-input v-model="settings.originDistance.z" label="Origin distance relative to Z axis" description="origin-z" type="number" required />
+              <base-input v-model.number="settings.originDistance.z" label="Origin distance relative to Z axis" description="origin-z" type="number" required />
             </div>
           </div>
           <div class="flex gap-1">
