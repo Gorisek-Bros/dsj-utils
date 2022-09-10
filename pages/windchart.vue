@@ -91,23 +91,54 @@ function calculate() {
     </div>
   </section>
   <aside class="w-1/3 p-4 h-full">
-    <div class="flex gap-4 items-center mb-4">
-      <span class="flex gap-2 items-center">
-        <div class="i-heroicons-cog-8-tooth-solid text-2xl p-2" />
-        <h1 class="text-2xl font-semibold">Settings</h1>
-      </span>
-      <hr class="h-1 w-full">
-    </div>
-    <div class="mb-3">
-      <base-input v-model="form.wind" description="wind" label="Hill definition wind" min="0" required step="0.01" type="number" />
-      <base-input
-        v-model="form.default" description="default" label="Hill definition default gate" min="0" required
-        type="number"
-      />
-      <base-input v-model="form.minGate" description="min-gate" label="Hill definition min gate" min="0" required type="number" />
-      <base-input v-model="form.maxGate" description="max-gate" label="Hill definition max gate" min="0" required type="number" />
-      Wind direction: <span id="windDirection">0</span><br>
-      Wind speed: <span id="windSpeed">0</span>
+    <div class="flex flex-col gap-8">
+      <div>
+        <div class="flex items-center gap-4 mb-4">
+          <span class="flex gap-2 items-center">
+            <div class="i-heroicons-cog-8-tooth-solid text-2xl p-2" />
+            <h1 class="text-2xl font-semibold">Settings</h1>
+          </span>
+          <hr class="h-1 w-full">
+        </div>
+        <div>
+          <base-input v-model="form.wind" description="wind" label="Hill definition wind" min="0" required step="0.01" type="number" />
+          <base-input
+            v-model="form.default" description="default" label="Hill definition default gate" min="0" required
+            type="number"
+          />
+          <base-input v-model="form.minGate" description="min-gate" label="Hill definition min gate" min="0" required type="number" />
+          <base-input v-model="form.maxGate" description="max-gate" label="Hill definition max gate" min="0" required type="number" />
+        </div>
+      </div>
+      <div>
+        <div class="flex gap-4 items-center mb-4">
+          <span class="flex gap-2 items-center">
+            <div class="i-heroicons-information-circle-solid text-2xl p-2" />
+            <h1 class="text-2xl font-semibold">Informations</h1>
+          </span>
+          <hr class="h-1 w-full">
+        </div>
+        <table class="w-full">
+          <tbody>
+            <tr>
+              <th class="text-left">
+                Wind direction:
+              </th>
+              <td id="windDirection">
+                0
+              </td>
+            </tr>
+            <tr>
+              <th class="text-left">
+                Wind speed:
+              </th>
+              <td id="windSpeed">
+                0
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </aside>
 </template>
