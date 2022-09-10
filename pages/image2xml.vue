@@ -26,6 +26,7 @@ const settings = reactive<Settings>({
 const files = ref([])
 const previews = ref([])
 const isProcessed = ref(false)
+const canBeSent = computed(() => previews.value.length !== 0 && Object.values(settings.tags).some(x => !!x))
 
 watch(() => settings.scalingFactor, async () => {
   const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
@@ -124,7 +125,7 @@ function onSubmit() {
               <base-checkbox v-model.boolean="settings.tags.twigs" label="Twigs" />
             </div>
           </div>
-          <base-button :loading="isProcessed === true" type="submit">
+          <base-button :disabled="!canBeSent" :loading="isProcessed === true" type="submit">
             Generate XML
           </base-button>
         </form>
