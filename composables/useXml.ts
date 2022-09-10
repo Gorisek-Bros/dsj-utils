@@ -10,7 +10,7 @@ export default function () {
     const initialPixels = getPixels(context, width, height)
     const pixels = mergePixels(initialPixels)
 
-    let [x0, y0] = getOriginCoordinates(settings, width, height)
+    let [z0, y0] = getOriginCoordinates(settings, width, height)
     const output: CustomMarkings = {
       'custom-markings': {
         summer: {
@@ -29,7 +29,7 @@ export default function () {
       for (let i = 0; i < monocoloredPixels.length; i++) {
         for (let j = 0; j < monocoloredPixels[i].length; j++) {
           if (monocoloredPixels[i][j].every(x => x === null)) {
-            x0 += settings.pixelSize * monocoloredPixels[i][j].length
+            z0 += settings.pixelSize * monocoloredPixels[i][j].length
             continue
           }
 
@@ -37,14 +37,14 @@ export default function () {
             '@d': Math.round(y0 * 100) / 100,
             '@size': settings.pixelSize,
             '@space': settings.pixelSize,
-            '@z1': Math.round(x0 * 100) / 100,
-            '@z2': Math.round((x0 + settings.pixelSize * monocoloredPixels[i][j].length) * 100) / 100,
+            '@z1': Math.round(z0 * 100) / 100,
+            '@z2': Math.round((z0 + settings.pixelSize * monocoloredPixels[i][j].length) * 100) / 100,
           })
 
-          x0 += settings.pixelSize * monocoloredPixels[i][j].length
+          z0 += settings.pixelSize * monocoloredPixels[i][j].length
         }
 
-        x0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
+        z0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
         y0 += settings.pixelSize
       }
     }
@@ -52,7 +52,7 @@ export default function () {
     for (let i = 0; i < pixels.length; i++) {
       for (let j = 0; j < pixels[i].length; j++) {
         if (pixels[i][j].every(x => x === null)) {
-          x0 += settings.pixelSize * pixels[i][j].length
+          z0 += settings.pixelSize * pixels[i][j].length
           continue
         }
 
@@ -60,8 +60,8 @@ export default function () {
           output['custom-markings'].summer.banner.push({
             '@d1': Math.round(y0 * 100) / 100,
             '@d2': Math.round((y0 + settings.pixelSize) * 100) / 100,
-            '@z1': Math.round(x0 * 100) / 100,
-            '@z2': Math.round((x0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
+            '@z1': Math.round(z0 * 100) / 100,
+            '@z2': Math.round((z0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
             '@c': pixels[i][j][0],
             '@side': 'custom',
             '@w': settings.pixelSize,
@@ -71,8 +71,8 @@ export default function () {
         if (settings.tags.line || settings.tags.spray) {
           const item: Line | Spray = {
             '@d': Math.round(y0 * 100) / 100,
-            '@z1': Math.round(x0 * 100) / 100,
-            '@z2': Math.round((x0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
+            '@z1': Math.round(z0 * 100) / 100,
+            '@z2': Math.round((z0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
             '@c': pixels[i][j][0],
             '@w': settings.pixelSize,
           }
@@ -83,10 +83,10 @@ export default function () {
             output['custom-markings'].winter.spray.push(item)
         }
 
-        x0 += settings.pixelSize * pixels[i][j].length
+        z0 += settings.pixelSize * pixels[i][j].length
       }
 
-      x0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
+      z0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
       y0 += settings.pixelSize
     }
 
