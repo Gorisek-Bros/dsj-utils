@@ -26,7 +26,6 @@ export default function () {
 
     if (settings.tags.twigs) {
       const monocoloredPixels: string[][][] = monocolorPixels(settings, initialPixels)
-      console.log(initialPixels)
       for (let i = 0; i < monocoloredPixels.length; i++) {
         for (let j = 0; j < monocoloredPixels[i].length; j++) {
           if (monocoloredPixels[i][j].every(x => x === null)) {
