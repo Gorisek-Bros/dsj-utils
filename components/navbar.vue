@@ -6,16 +6,16 @@
     </span>
     <div class="flex-grow" />
     <div class="flex gap-4">
-      <NuxtLink to="/windchart" class="font-medium hover:underline">
+      <NuxtLink class="font-medium hover:underline" to="/windchart">
         Wind Chart
       </NuxtLink>
-      <NuxtLink to="/hncalc" class="font-medium hover:underline">
+      <NuxtLink class="font-medium hover:underline" to="/hncalc">
         H/N Calculator
       </NuxtLink>
-      <NuxtLink to="/image2xml" class="font-medium hover:underline">
+      <NuxtLink class="font-medium hover:underline" to="/image2xml">
         Image to XML
       </NuxtLink>
-      <NuxtLink to="/obj2xml" class="font-medium hover:underline">
+      <NuxtLink class="font-medium hover:underline" to="/obj2xml">
         Obj to XML
       </NuxtLink>
     </div>

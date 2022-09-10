@@ -69,7 +69,7 @@ function onSubmit() {
         <FileSelector v-model="files" :allow-multiple="false">
           <div class="block flex flex-col justify-center items-center h-full">
             <canvas ref="canvas" class="mb-4" />
-            <img ref="img" :src="previews[0]" class="hidden" @load="drawImage">
+            <img ref="img" class="hidden" :src="previews[0]" @load="drawImage">
             <ul v-if="files.length > 0" class="mb-2">
               <li v-for="file in files" :key="file.name">
                 {{ file.name }}
@@ -92,22 +92,22 @@ function onSubmit() {
           <hr class="h-1 w-full">
         </div>
         <form class="flex flex-col gap-1" @submit.prevent="onSubmit">
-          <base-input v-model.number="settings.pixelSize" step="0.01" label="Pixel size" description="pixel-size" type="number" required />
-          <base-input v-model.number="settings.scalingFactor" label="Scaling factor" description="scaling-factor" type="number" required min="0" />
+          <base-input v-model.number="settings.pixelSize" description="pixel-size" label="Pixel size" required step="0.01" type="number" />
+          <base-input v-model.number="settings.scalingFactor" description="scaling-factor" label="Scaling factor" min="0" required type="number" />
           <div class="flex gap-1">
             <div class="w-1/2">
-              <base-input v-model.number="settings.originDistance.x" label="Origin distance relative to X axis" description="origin-x" type="number" required />
+              <base-input v-model.number="settings.originDistance.x" description="origin-x" label="Origin distance relative to X axis" required type="number" />
             </div>
             <div class="w-1/2">
-              <base-input v-model.number="settings.originDistance.z" label="Origin distance relative to Z axis" description="origin-z" type="number" required />
+              <base-input v-model.number="settings.originDistance.z" description="origin-z" label="Origin distance relative to Z axis" required type="number" />
             </div>
           </div>
           <div class="flex gap-1">
             <div class="w-1/2">
-              <base-input v-model="settings.ignoreColor" label="Ignore color" description="ignore-color" type="color" />
+              <base-input v-model="settings.ignoreColor" description="ignore-color" label="Ignore color" type="color" />
             </div>
             <div class="w-1/2">
-              <base-input v-model="settings.useColor" label="Use single color" description="use-color" type="color" />
+              <base-input v-model="settings.useColor" description="use-color" label="Use single color" type="color" />
             </div>
           </div>
           <div class="flex gap-4 mb-4">

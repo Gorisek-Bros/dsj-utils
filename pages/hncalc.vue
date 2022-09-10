@@ -39,20 +39,20 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
       </h2>
       <div class="flex gap-3">
         <div class="flex-auto">
-          <base-input disabled :model-value="minAlpha" label="Minimum optimal inrun alpha" description="min-alpha" type="number" />
+          <base-input description="min-alpha" disabled label="Minimum optimal inrun alpha" :model-value="minAlpha" type="number" />
         </div>
         <div class="flex-auto">
           <base-input
-            disabled :model-value="maxAlpha" label="Maximum optimal inrun alpha" description="max-alpha" type="number"
+            description="max-alpha" disabled label="Maximum optimal inrun alpha" :model-value="maxAlpha" type="number"
           />
         </div>
       </div>
       <div class="flex gap-3">
         <div class="flex-auto">
-          <base-input disabled :model-value="minHn" label="Minimum optimal H/N" description="min-hn" type="number" />
+          <base-input description="min-hn" disabled label="Minimum optimal H/N" :model-value="minHn" type="number" />
         </div>
         <div class="flex-auto">
-          <base-input disabled :model-value="maxHn" label="Maximum optimal H/N" description="max-hn" type="number" />
+          <base-input description="max-hn" disabled label="Maximum optimal H/N" :model-value="maxHn" type="number" />
         </div>
       </div>
     </div>
@@ -62,10 +62,10 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
       </h2>
       <div class="flex gap-3">
         <div class="flex-auto">
-          <base-input disabled :model-value="computedH" label="Computed H value" description="h-val" type="number" />
+          <base-input description="h-val" disabled label="Computed H value" :model-value="computedH" type="number" />
         </div>
         <div class="flex-auto">
-          <base-input disabled :model-value="computedN" label="Computed N value" description="n-val" type="number" />
+          <base-input description="n-val" disabled label="Computed N value" :model-value="computedN" type="number" />
         </div>
       </div>
     </div>
@@ -79,10 +79,10 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
       <hr class="h-1 w-full">
     </div>
     <div class="mb-3">
-      <base-input v-model="form.k" label="Construction point" description="k-point" type="number" required />
+      <base-input v-model="form.k" description="k-point" label="Construction point" required type="number" />
     </div>
     <div class="mb-3">
-      <base-input v-model="form.h2n" label="H/N value" min="0.51" max="0.61" step="0.01" description="max-hn" type="number" required info="It is suggested to use value between 0.51 and 0.61" />
+      <base-input v-model="form.h2n" description="max-hn" info="It is suggested to use value between 0.51 and 0.61" label="H/N value" max="0.61" min="0.51" required step="0.01" type="number" />
     </div>
   </aside>
 </template>
