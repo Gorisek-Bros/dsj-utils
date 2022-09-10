@@ -35,7 +35,7 @@ export default function () {
   }
 
   function monocolorPixels(settings: Settings, pixels: string[][]): string[][][] {
-    return pixels.map(x => x.map(y => y !== null ? (settings.useColor.include ? settings.useColor.value : '0x000000') : null)).map(x => groupBySame(x))
+    return pixels.map(x => x.map(y => y !== null ? (settings.useColor.include ? settings.useColor.value.replace('#', '0x') : '0x000000') : null)).map(x => groupBySame(x))
   }
 
   async function toBlob(file: File) {
