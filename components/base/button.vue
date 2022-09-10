@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { ButtonHTMLAttributes } from 'vue'
-
 defineProps<{
   disabled?: boolean
-  type?: ButtonHTMLAttributes['type']
+  type?: 'button' | 'submit' | 'reset'
   loading?: boolean
 }>()
 </script>
