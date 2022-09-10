@@ -25,6 +25,7 @@ const settings = reactive<Settings>({
 })
 const files = ref([])
 const previews = ref([])
+const isProcessed = ref(false)
 
 watch(() => settings.scalingFactor, async () => {
   const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
@@ -52,10 +53,11 @@ watch(files, async () => {
 })
 
 function onSubmit() {
-  console.log(settings)
+  isProcessed.value = true
   source.value = generateXml(canvas.value.getContext('2d'), settings, canvas.value.width, canvas.value.height)
   const { copy } = useClipboard({ source })
   copy()
+  isProcessed.value = false
 }
 </script>
 
@@ -122,9 +124,9 @@ function onSubmit() {
               <base-checkbox v-model.boolean="settings.tags.twigs" label="Twigs" />
             </div>
           </div>
-          <button :disabled="previews.length === 0" type="submit" class="text-blue-600 border-blue-600 rounded px-4 py-2 border disabled:text-blue-400 disabled:border-blue-400">
+          <base-button :loading="isProcessed === true" type="submit">
             Generate XML
-          </button>
+          </base-button>
         </form>
       </aside>
     </main>

@@ -90,7 +90,7 @@ export default function () {
       y0 += settings.pixelSize
     }
 
-    return create(output).end({ prettyPrint: true })
+    return create(output).end({ prettyPrint: true, headless: true })
   }
 
   return {
