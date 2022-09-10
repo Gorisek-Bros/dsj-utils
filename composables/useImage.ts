@@ -13,7 +13,7 @@ export default function () {
     return [(-width / (2 / settings.pixelSize) + settings.originDistance.z), Math.abs((height / (2 / settings.pixelSize)) - settings.originDistance.x)]
   }
 
-  function getPixels(context: CanvasRenderingContext2D, width: number, height: number): string[][] {
+  function getPixels(context: CanvasRenderingContext2D, settings: Settings, width: number, height: number): string[][] {
     const imageData = context.getImageData(0, 0, width, height)
     const pixels: string[] = []
 
@@ -22,7 +22,9 @@ export default function () {
       const green = imageData.data[i + 1]
       const blue = imageData.data[i + 2]
       const alpha = imageData.data[i + 3]
-      pixels.push(alpha !== 0 ? rgbToHex(red, green, blue) : null)
+
+      const color = rgbToHex(red, green, blue)
+      pixels.push(alpha !== 0 && color !== settings.ignoreColor.value.replace('#', '0x') ? rgbToHex(red, green, blue) : null)
     }
 
     return [...chunk(pixels, imageData.width)]
@@ -33,7 +35,7 @@ export default function () {
   }
 
   function monocolorPixels(settings: Settings, pixels: string[][]): string[][][] {
-    return pixels.map(x => x.map(y => y !== null ? settings.useColor || '0x000000' : null)).map(x => groupBySame(x))
+    return pixels.map(x => x.map(y => y !== null ? (settings.useColor.include ? settings.useColor.value : '0x000000') : null)).map(x => groupBySame(x))
   }
 
   async function toBlob(file: File) {

@@ -8,14 +8,20 @@ const { generateXml } = useXml()
 const canvas = ref<HTMLCanvasElement | null>(null)
 const img = ref<HTMLImageElement | null>(null)
 const settings = reactive<Settings>({
-  ignoreColor: '#000000',
+  ignoreColor: {
+    include: false,
+    value: '#000000',
+  },
   originDistance: {
     x: 50,
     z: 0,
   },
   pixelSize: 1,
   scalingFactor: 1,
-  useColor: '#ffffff',
+  useColor: {
+    include: false,
+    value: '#FFFFFF',
+  },
   tags: {
     banner: false,
     line: false,
@@ -125,13 +131,13 @@ function onSubmit() {
               </div>
               <div class="flex gap-1">
                 <div class="w-1/2">
-                  <base-input v-model="settings.ignoreColor" description="ignore-color" label="Ignore color" type="color" />
+                  <base-input v-model="settings.ignoreColor.value" description="ignore-color" label="Ignore color" type="color" />
                 </div>
                 <div class="w-1/2">
-                  <base-input v-model="settings.useColor" description="use-color" label="Use single color" type="color" />
+                  <base-input v-model="settings.useColor.value" description="use-color" label="Use single color" type="color" />
                 </div>
               </div>
-              <div class="flex gap-4 mb-4">
+              <div class="flex gap-4">
                 <div class="flex items-center flex-row-reverse gap-1">
                   <base-checkbox v-model.boolean="settings.tags.banner" label="Banner" />
                 </div>
@@ -143,6 +149,14 @@ function onSubmit() {
                 </div>
                 <div class="flex items-center flex-row-reverse gap-1">
                   <base-checkbox v-model.boolean="settings.tags.twigs" label="Twigs" />
+                </div>
+              </div>
+              <div class="flex gap-4 mb-2">
+                <div class="flex items-center flex-row-reverse gap-1">
+                  <base-checkbox v-model.boolean="settings.ignoreColor.include" label="Ignore given color" />
+                </div>
+                <div class="flex items-center flex-row-reverse gap-1">
+                  <base-checkbox v-model.boolean="settings.useColor.include" label="Use given color" />
                 </div>
               </div>
               <base-button :disabled="!canBeSent " :loading="isProcessed === true" type="submit">

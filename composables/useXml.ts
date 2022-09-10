@@ -7,8 +7,9 @@ export default function () {
     const { getPixels, mergePixels, monocolorPixels } = useImage()
     const { getOriginCoordinates } = useImage()
 
-    const initialPixels = getPixels(context, width, height)
+    const initialPixels = getPixels(context, settings, width, height)
     const pixels = mergePixels(initialPixels)
+    let _pixels = pixels
 
     let [z0, y0] = getOriginCoordinates(settings, width, height)
     const output: CustomMarkings = {
@@ -25,11 +26,11 @@ export default function () {
     }
 
     if (settings.tags.twigs) {
-      const monocoloredPixels: string[][][] = monocolorPixels(settings, initialPixels)
-      for (let i = 0; i < monocoloredPixels.length; i++) {
-        for (let j = 0; j < monocoloredPixels[i].length; j++) {
-          if (monocoloredPixels[i][j].every(x => x === null)) {
-            z0 += settings.pixelSize * monocoloredPixels[i][j].length
+      _pixels = monocolorPixels(settings, initialPixels)
+      for (let i = 0; i < _pixels.length; i++) {
+        for (let j = 0; j < _pixels[i].length; j++) {
+          if (_pixels[i][j].every(x => x === null)) {
+            z0 += settings.pixelSize * _pixels[i][j].length
             continue
           }
 
@@ -38,10 +39,10 @@ export default function () {
             '@size': settings.pixelSize,
             '@space': settings.pixelSize,
             '@z1': Math.round(z0 * 100) / 100,
-            '@z2': Math.round((z0 + settings.pixelSize * monocoloredPixels[i][j].length) * 100) / 100,
+            '@z2': Math.round((z0 + settings.pixelSize * _pixels[i][j].length) * 100) / 100,
           })
 
-          z0 += settings.pixelSize * monocoloredPixels[i][j].length
+          z0 += settings.pixelSize * _pixels[i][j].length
         }
 
         z0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z
@@ -49,10 +50,13 @@ export default function () {
       }
     }
 
-    for (let i = 0; i < pixels.length; i++) {
-      for (let j = 0; j < pixels[i].length; j++) {
-        if (pixels[i][j].every(x => x === null)) {
-          z0 += settings.pixelSize * pixels[i][j].length
+    if (settings.useColor.include)
+      _pixels = monocolorPixels(settings, initialPixels)
+
+    for (let i = 0; i < _pixels.length; i++) {
+      for (let j = 0; j < _pixels[i].length; j++) {
+        if (_pixels[i][j].every(x => x === null)) {
+          z0 += settings.pixelSize * _pixels[i][j].length
           continue
         }
 
@@ -61,8 +65,8 @@ export default function () {
             '@d1': Math.round(y0 * 100) / 100,
             '@d2': Math.round((y0 + settings.pixelSize) * 100) / 100,
             '@z1': Math.round(z0 * 100) / 100,
-            '@z2': Math.round((z0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
-            '@c': pixels[i][j][0],
+            '@z2': Math.round((z0 + (settings.pixelSize * _pixels[i][j].length)) * 100) / 100,
+            '@c': _pixels[i][j][0],
             '@side': 'custom',
             '@w': settings.pixelSize,
           })
@@ -72,8 +76,8 @@ export default function () {
           const item: Line | Spray = {
             '@d': Math.round(y0 * 100) / 100,
             '@z1': Math.round(z0 * 100) / 100,
-            '@z2': Math.round((z0 + (settings.pixelSize * pixels[i][j].length)) * 100) / 100,
-            '@c': pixels[i][j][0],
+            '@z2': Math.round((z0 + (settings.pixelSize * _pixels[i][j].length)) * 100) / 100,
+            '@c': _pixels[i][j][0],
             '@w': settings.pixelSize,
           }
 
@@ -83,7 +87,7 @@ export default function () {
             output['custom-markings'].winter.spray.push(item)
         }
 
-        z0 += settings.pixelSize * pixels[i][j].length
+        z0 += settings.pixelSize * _pixels[i][j].length
       }
 
       z0 = (-width / (2 / settings.pixelSize)) + settings.originDistance.z

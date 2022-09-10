@@ -1,10 +1,15 @@
 interface Settings {
   scalingFactor: number
   originDistance: OriginDistance
-  ignoreColor: string
+  ignoreColor: OptionalSetting
   pixelSize: number
-  useColor: string
+  useColor: OptionalSetting
   tags: Record<'banner' | 'line' | 'spray' | 'twigs', boolean>
+}
+
+interface OptionalSetting {
+  include: boolean
+  value: string
 }
 
 interface OriginDistance {
