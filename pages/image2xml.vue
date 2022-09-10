@@ -52,6 +52,8 @@ watch(() => settings.scalingFactor, async () => {
 
   context.clearRect(0, 0, canvas.value.width, canvas.value.height)
   context.drawImage(image, 0, 0, image.width, image.height)
+
+  calculateOriginCoordinates()
 })
 
 const source = ref<string>(null)
