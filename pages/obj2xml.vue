@@ -6,12 +6,14 @@ definePageMeta({
 })
 
 const { getContent } = useFile()
-const { parseObj } = useObj()
+const { parseObj, generateXml } = useObj()
 
 const container = ref<HTMLDivElement>(null)
 const files = ref<File[]>([])
 watch(files, async (files) => {
   const content = (await getContent(files[0])).split('\n')
+  const obj = parseObj(content, null)
+  console.log(generateXml(obj))
 })
 </script>
 

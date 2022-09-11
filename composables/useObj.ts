@@ -1,3 +1,5 @@
+import { create } from 'xmlbuilder2'
+import type { Model } from '~~/types/Model'
 import type { Mtl } from '~~/types/Mtl'
 import type { Batch, Vertex } from '~~/types/Obj'
 import { FaceType } from '~~/types/Obj'
@@ -113,8 +115,54 @@ export default function () {
     }
   }
 
+  function generateXml(batches: Batch[]) {
+    const output: Model = {
+      model: {
+        'batch': [],
+        '@id': '0',
+      },
+    }
+
+    for (let i = 0; i < batches.length; i++) {
+      output.model.batch.push({
+        '@id': batches[i].id,
+        '@texture1': 'Textures\\concrete5.png',
+        '@material': 'Materials\\material1.xml',
+        '@fvf': '322',
+        '@order': '0',
+        'vertex': [],
+        'face': [],
+      })
+
+      for (let j = 0; j < batches[i].vertices.length; j++) {
+        const currentVertex = batches[i].vertices[j]
+        if (currentVertex !== null) {
+          output.model.batch.at(-1).vertex.push({
+            '@id': currentVertex.id.toString(),
+            '@x': currentVertex.x,
+            '@y': currentVertex.y,
+            '@z': currentVertex.z,
+            '@diffuse': batches[i].diffuse,
+          })
+        }
+      }
+
+      for (let j = 0; j < batches[i].faces.length; j++) {
+        const currentFace = batches[i].faces[j]
+        output.model.batch.at(-1).face.push({
+          '@v1': currentFace.v1,
+          '@v2': currentFace.v2,
+          '@v3': currentFace.v3,
+        })
+      }
+    }
+
+    return create(output).end({ prettyPrint: true, headless: true })
+  }
+
   return {
     parseMtl,
     parseObj,
+    generateXml,
   }
 }
