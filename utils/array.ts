@@ -15,4 +15,8 @@ function groupBySame(array: any[]) {
   }, [])
 }
 
-export { chunk, groupBySame }
+function distinct(array: Record<any, any>[]) {
+  return [...new Set(array.map(x => JSON.stringify(x)))].map(x => JSON.parse(x))
+}
+
+export { chunk, groupBySame, distinct }

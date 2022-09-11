@@ -21,10 +21,10 @@ watch(() => props.loading, () => {
 <template>
   <button
     ref="button"
-    class="flex justify-center items-center rounded px-4 py-2 text-white"
+    class="flex justify-center items-center rounded px-4 py-2"
     :class="{
       'bg-blue-600 hover:bg-blue-700 rounded disabled:bg-blue-400 hover:disabled:bg-blue-400 text-white px-4 py-2': !secondary,
-      'border-blue-600 hover:border-blue-700 disabled:border-blue-400': secondary,
+      'text-blue-600 disabled:text-blue-400': secondary,
     }"
     :disabled="disabled || loading"
     :type="type"

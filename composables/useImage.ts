@@ -1,14 +1,8 @@
 import type { Settings } from '~~/types/Settings'
 import { chunk, groupBySame } from '~~/utils/array'
+import { rgbToHex } from '~~/utils/color'
 
 export default function () {
-  function rgbToHex(r: number, g: number, b: number): string {
-    return `0x${[r, g, b].map((x) => {
-      const hex = x.toString(16)
-      return hex.length === 1 ? `0${hex}` : hex
-    }).join('')}`
-  }
-
   function getOriginCoordinates(settings: Settings, width: number, height: number): [number, number] {
     return [(-width / (2 / settings.pixelSize) + settings.originDistance.z), Math.abs((height / (2 / settings.pixelSize)) - settings.originDistance.x)]
   }
