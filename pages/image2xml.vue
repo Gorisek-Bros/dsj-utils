@@ -47,7 +47,7 @@ function calculateOriginCoordinates() {
   }
 }
 
-watch((settings), () => calculateOriginCoordinates())
+watch(() => ({ ...settings }), () => calculateOriginCoordinates())
 
 watch(() => settings.scalingFactor, async () => {
   const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
@@ -58,8 +58,6 @@ watch(() => settings.scalingFactor, async () => {
 
   context.clearRect(0, 0, canvas.value.width, canvas.value.height)
   context.drawImage(image, 0, 0, image.width, image.height)
-
-  calculateOriginCoordinates()
 })
 
 const source = ref<string>(null)
