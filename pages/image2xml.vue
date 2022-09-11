@@ -6,7 +6,8 @@ definePageMeta({
   layout: 'main',
 })
 
-const { getOriginCoordinates, toBlob } = useImage()
+const { toBlob } = useFile()
+const { getOriginCoordinates } = useImage()
 const { generateXml } = useXml()
 
 const canvas = ref<HTMLCanvasElement | null>(null)
