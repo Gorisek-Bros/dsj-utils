@@ -34,9 +34,8 @@ const settings = reactive<Settings>({
     twigs: false,
   },
 })
-const files = ref([])
-const previews = ref([])
-const isProcessed = ref(false)
+const files = ref<File[]>([])
+const previews = ref<string[]>([])
 const canBeSent = computed(() => previews.value.length !== 0 && Object.values(settings.tags).some(x => !!x))
 
 const originCoordinates = reactive({
@@ -69,31 +68,33 @@ const source = ref<string>(null)
 function drawImage() {
   canvas.value.width = img.value.naturalWidth
   canvas.value.height = img.value.naturalHeight
-  const context = canvas.value.getContext('2d')
-  context.drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
+  canvas.value.getContext('2d').drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
   calculateOriginCoordinates()
 }
 
+function clearImage() {
+  canvas.value.getContext('2d').clearRect(0, 0, canvas.value.width, canvas.value.height)
+  canvas.value.width = canvas.value.height = 0
+  files.value = previews.value = []
+}
+
 watch(files, async () => {
-  previews.value = await Promise.all(
-    files.value.map(file => toBlob(file)),
-  )
+  previews.value = await Promise.all(files.value.map(file => toBlob(file)))
 })
 
+const { copy, copied } = useClipboard({ source })
+
 function onSubmit() {
-  isProcessed.value = true
   source.value = generateXml(canvas.value.getContext('2d'), settings, canvas.value.width, canvas.value.height)
-  const { copy } = useClipboard({ source })
-  copy()
-  isProcessed.value = false
+  copy(source.value)
 }
 </script>
 
 <template>
   <section class="w-2/3 p-4 h-full">
-    <FileSelector v-model="files" :allow-multiple="false">
+    <FileSelector v-model="files">
       <div class="block flex flex-col justify-center items-center h-full">
-        <canvas ref="canvas" class="mb-4" />
+        <canvas ref="canvas" class="mb-4" height="0" width="0" />
         <img ref="img" class="hidden" :src="previews[0]" @load="drawImage">
         <ul v-if="files.length > 0" class="mb-2">
           <li v-for="file in files" :key="file.name">
@@ -101,9 +102,14 @@ function onSubmit() {
           </li>
         </ul>
         <span v-else class="mb-2">Awaiting...</span>
-        <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
-          Upload file
-        </DialogButton>
+        <div class="flex gap-1">
+          <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
+            Upload file
+          </DialogButton>
+          <base-button :disabled="files.length === 0" secondary @click="clearImage">
+            Dispose file
+          </base-button>
+        </div>
       </div>
     </FileSelector>
   </section>
@@ -159,8 +165,8 @@ function onSubmit() {
               <base-checkbox v-model.boolean="settings.useColor.include" label="Use given color" />
             </div>
           </div>
-          <base-button :disabled="!canBeSent " :loading="isProcessed === true" type="submit">
-            Generate XML
+          <base-button :disabled="!canBeSent" type="submit">
+            {{ !copied ? 'Generate XML' : 'Copied!' }}
           </base-button>
         </form>
       </div>
