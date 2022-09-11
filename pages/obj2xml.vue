@@ -10,11 +10,16 @@ const { parseObj, generateXml } = useObj()
 
 const container = ref<HTMLDivElement>(null)
 const files = ref<File[]>([])
-watch(files, async (files) => {
-  const content = (await getContent(files[0])).split('\n')
+const source = ref(null)
+
+const { copy, copied } = useClipboard({ source })
+
+async function onSubmit() {
+  const content = (await getContent(files.value[0])).split('\n')
   const obj = parseObj(content, null)
-  console.log(generateXml(obj))
-})
+  source.value = generateXml(obj)
+  copy(source.value)
+}
 </script>
 
 <template>
@@ -32,8 +37,11 @@ watch(files, async (files) => {
           <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
             Upload file
           </DialogButton>
-          <base-button secondary>
+          <base-button v-if="!copied" secondary @click="onSubmit">
             Generate XML
+          </base-button>
+          <base-button v-else secondary>
+            Copied!
           </base-button>
         </div>
       </div>
