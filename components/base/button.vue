@@ -23,7 +23,7 @@ watch(() => props.loading, () => {
     ref="button"
     class="flex justify-center items-center rounded px-4 py-2 text-white"
     :class="{
-      'bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2': !secondary,
+      'bg-blue-600 hover:bg-blue-700 rounded disabled:bg-blue-400 hover:disabled:bg-blue-400 text-white px-4 py-2': !secondary,
       'border-blue-600 hover:border-blue-700 disabled:border-blue-400': secondary,
     }"
     :disabled="disabled || loading"
