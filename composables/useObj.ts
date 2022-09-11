@@ -29,12 +29,17 @@ export default function () {
   }
 
   function parseObj(input: string[], materials: Mtl[]) {
-    const batches: Batch[] = []
+    const batches: Batch[] = [{
+      id: '0',
+      diffuse: '0xFFFFFF',
+      faces: [],
+      vertices: [],
+    }]
     const vertices: Vertex[] = []
     let index = 1
 
     for (let i = 0; i < input.length; i++) {
-      const line: string[] = input[i].split(' ')
+      const line: string[] = input[i].split(/\s+/)
       if (line[0].startsWith('v') && line[0].endsWith('v')) {
         vertices.push({
           id: index,
@@ -68,16 +73,16 @@ export default function () {
 
     for (let i = 0; i < batches.length; i++) {
       for (let j = 0; j < batches[i].faces.length; j++) {
-        const faceType = batches[i].faces[j]
-        if (faceType.type !== FaceType.NORMAL_INDICE) {
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v1))
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v2))
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v3))
+        const currentFace = batches[i].faces[j]
+        if (currentFace.type === FaceType.NORMAL_INDICE) {
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v1))
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v2))
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v3))
         }
         else {
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v1.split('/')[0]))
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v2.split('/')[0]))
-          batches[i].vertices.push(vertices.find(x => x.id.toString() === faceType.v3.split('/')[0]))
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v1.split('/')[0]))
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v2.split('/')[0]))
+          batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v3.split('/')[0]))
         }
       }
     }

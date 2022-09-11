@@ -5,8 +5,14 @@ definePageMeta({
   layout: 'main',
 })
 
+const { getContent } = useFile()
+const { parseObj } = useObj()
+
 const container = ref<HTMLDivElement>(null)
 const files = ref<File[]>([])
+watch(files, async (files) => {
+  const content = (await getContent(files[0])).split('\n')
+})
 </script>
 
 <template>

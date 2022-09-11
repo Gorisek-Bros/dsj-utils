@@ -32,15 +32,10 @@ export default function () {
     return pixels.map(x => x.map(y => y !== null ? (settings.useColor.include ? settings.useColor.value.replace('#', '0x') : '0x000000') : null)).map(x => groupBySame(x))
   }
 
-  async function toBlob(file: File) {
-    return URL.createObjectURL(new Blob([await file.arrayBuffer()]))
-  }
-
   return {
     getOriginCoordinates,
     getPixels,
     mergePixels,
     monocolorPixels,
-    toBlob,
   }
 }
