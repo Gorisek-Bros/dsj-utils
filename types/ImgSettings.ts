@@ -1,13 +1,13 @@
-interface Settings {
+interface ImgSettings {
   scalingFactor: number
   originDistance: OriginDistance
-  ignoreColor: OptionalSetting
+  ignoreColor: OptionalImgSetting
   pixelSize: number
-  useColor: OptionalSetting
+  useColor: OptionalImgSetting
   tags: Record<'banner' | 'line' | 'spray' | 'twigs', boolean>
 }
 
-interface OptionalSetting {
+interface OptionalImgSetting {
   include: boolean
   value: string
 }
@@ -17,4 +17,4 @@ interface OriginDistance {
   z: number
 }
 
-export { Settings }
+export { ImgSettings }

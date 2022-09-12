@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Settings } from '~~/types/Settings'
+import type { ImgSettings } from '~~/types/ImgSettings'
 
 definePageMeta({
   layout: 'main',
@@ -7,8 +7,7 @@ definePageMeta({
 
 // Composables
 const { toBlob } = useFile()
-const { getOriginCoordinates } = useImage()
-const { generateXml } = useXml()
+const { getOriginCoordinates, generateXml } = useImage()
 
 // Elements
 const canvas = ref<HTMLCanvasElement | null>(null)
@@ -19,7 +18,7 @@ const file = ref<File>(null)
 const preview = ref<string>(null)
 
 // Form
-const settings = reactive<Settings>({
+const settings = reactive<ImgSettings>({
   ignoreColor: {
     include: false,
     value: '#000000',
