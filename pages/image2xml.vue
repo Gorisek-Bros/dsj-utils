@@ -57,7 +57,12 @@ function calculateOriginCoordinates() {
   }
 }
 
-watch(() => ({ ...settings }), () => calculateOriginCoordinates())
+watch(() => ({ ...settings }), (previousSettings, newSettings) => {
+  if (previousSettings.scalingFactor !== newSettings.scalingFactor)
+    return
+
+  calculateOriginCoordinates()
+})
 
 // Image handling
 const source = ref<string>(null)
@@ -71,6 +76,8 @@ watch(() => settings.scalingFactor, async () => {
 
   context.clearRect(0, 0, canvas.value.width, canvas.value.height)
   context.drawImage(image, 0, 0, image.width, image.height)
+
+  calculateOriginCoordinates()
 })
 
 function drawImage() {
