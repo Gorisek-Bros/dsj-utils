@@ -31,18 +31,18 @@ interface CustomMarkings {
 }
 
 interface Season {
-  summer: Summer
-  winter: Winter
+  summer?: Summer
+  winter?: Winter
 }
 
 interface Summer {
-  banner: Banner[]
-  line: Line[]
+  banner?: Banner[]
+  line?: Line[]
 }
 
 interface Winter {
-  twigs: Twigs[]
-  spray: Spray[]
+  twigs?: Twigs[]
+  spray?: Spray[]
 }
 
 export { CustomMarkings, Banner, Line, Spray, Twigs }
