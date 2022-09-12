@@ -6,12 +6,20 @@ definePageMeta({
   layout: 'main',
 })
 
+// Composables
 const { toBlob } = useFile()
 const { getOriginCoordinates } = useImage()
 const { generateXml } = useXml()
 
+// Elements
 const canvas = ref<HTMLCanvasElement | null>(null)
 const img = ref<HTMLImageElement | null>(null)
+
+// Files
+const files = ref<File[]>([])
+const previews = ref<string[]>([])
+
+// Form
 const settings = reactive<Settings>({
   ignoreColor: {
     include: false,
@@ -34,8 +42,6 @@ const settings = reactive<Settings>({
     twigs: false,
   },
 })
-const files = ref<File[]>([])
-const previews = ref<string[]>([])
 const canBeSent = computed(() => previews.value.length !== 0 && Object.values(settings.tags).some(x => !!x))
 
 const originCoordinates = reactive({
@@ -53,6 +59,9 @@ function calculateOriginCoordinates() {
 
 watch(() => ({ ...settings }), () => calculateOriginCoordinates())
 
+// Image handling
+const source = ref<string>(null)
+
 watch(() => settings.scalingFactor, async () => {
   const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
   const context = canvas.value.getContext('2d')
@@ -64,7 +73,6 @@ watch(() => settings.scalingFactor, async () => {
   context.drawImage(image, 0, 0, image.width, image.height)
 })
 
-const source = ref<string>(null)
 function drawImage() {
   canvas.value.width = img.value.naturalWidth
   canvas.value.height = img.value.naturalHeight
@@ -78,10 +86,9 @@ function clearImage() {
   files.value = previews.value = []
 }
 
-watch(files, async () => {
-  previews.value = await Promise.all(files.value.map(file => toBlob(file)))
-})
+watch(files, async () => previews.value = await Promise.all(files.value.map(file => toBlob(file))))
 
+// Form handling
 const { copy, copied } = useClipboard({ source })
 
 function onSubmit() {
