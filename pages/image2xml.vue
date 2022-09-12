@@ -110,16 +110,14 @@ function onSubmit() {
 
 <template>
   <section class="w-2/3 p-4 h-full">
-    <base-file v-model="file">
+    <base-file v-model="file" accept="image/png, image/jpeg, image/jpg">
       <div class="block flex flex-col justify-center items-center h-full">
         <canvas ref="canvas" class="mb-4" height="0" width="0" />
         <img ref="img" class="hidden" :src="preview" @load="drawImage">
         <span class="mb-2">{{ !!file ? file.name : `Awaiting...` }}</span>
-        <div class="flex gap-1">
-          <base-file-button class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
-            Upload file
-          </base-file-button>
-        </div>
+        <base-file-button class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
+          Upload file
+        </base-file-button>
       </div>
     </base-file>
   </section>
