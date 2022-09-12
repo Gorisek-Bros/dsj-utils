@@ -72,10 +72,13 @@ watch(() => settings.scalingFactor, async () => {
 })
 
 async function drawImage() {
+  const context = canvas.value.getContext('2d')
+  context.clearRect(0, 0, canvas.value.width, canvas.value.height)
+
   if (settings.scalingFactor === 1) {
     canvas.value.width = img.value.naturalWidth
     canvas.value.height = img.value.naturalHeight
-    canvas.value.getContext('2d').drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
+    context.drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
   }
   else {
     await resizeImage()
@@ -91,7 +94,6 @@ async function resizeImage() {
   canvas.value.width = image.width
   canvas.value.height = image.height
 
-  context.clearRect(0, 0, canvas.value.width, canvas.value.height)
   context.drawImage(image, 0, 0, image.width, image.height)
 }
 
@@ -133,7 +135,7 @@ function onSubmit() {
           <hr class="h-1 w-full">
         </div>
         <form class="flex flex-col gap-1" @submit.prevent="onSubmit">
-          <base-input v-model.number="settings.pixelSize" description="pixel-size" label="Pixel size" required step="0.01" type="number" />
+          <base-input v-model.number="settings.pixelSize" description="pixel-size" label="Pixel size" required step="0.005" type="number" />
           <base-input v-model.number="settings.scalingFactor" description="scaling-factor" label="Scaling factor" min="0" required type="number" />
           <div class="flex gap-1">
             <div class="w-1/2">
