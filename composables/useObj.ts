@@ -31,12 +31,7 @@ export default function () {
   }
 
   function parseObj(input: string[], materials: Mtl[]) {
-    const batches: Batch[] = [{
-      id: '0',
-      diffuse: '0xFFFFFF',
-      faces: [],
-      vertices: [],
-    }]
+    const batches = [] as Batch[]
     const vertices: Vertex[] = []
     let index = 1
 
@@ -76,7 +71,7 @@ export default function () {
     for (let i = 0; i < batches.length; i++) {
       for (let j = 0; j < batches[i].faces.length; j++) {
         const currentFace = batches[i].faces[j]
-        if (currentFace.type === FaceType.NORMAL_INDICE) {
+        if (currentFace.type !== FaceType.NORMAL_INDICE) {
           batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v1))
           batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v2))
           batches[i].vertices.push(vertices.find(x => x.id.toString() === currentFace.v3))
