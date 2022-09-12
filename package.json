@@ -24,7 +24,6 @@
     "@unocss/reset": "^0.45.18",
     "pinia": "^2.0.22",
     "three": "^0.144.0",
-    "vue3-file-selector": "^1.0.3",
     "xmlbuilder2": "^3.0.2"
   }
 }

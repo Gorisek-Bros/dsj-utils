@@ -1,22 +1,32 @@
 <script setup lang="ts">
-defineProps<{
-  modelValue: File
+const props = defineProps<{
+  modelValue: File | File[]
   accept?: string
+  multiple?: boolean
 }>()
 
-defineEmits<{
-  (event: 'update:modelValue'): void
+const emit = defineEmits<{
+  (event: 'update:modelValue', files: File | File[]): void
 }>()
 
-const inputRef = ref<HTMLInputElement>(null)
+function updateModelValue(e: Event) {
+  const target = e.target as HTMLInputElement
+
+  if (Array.isArray(props.modelValue))
+    emit('update:modelValue', [...target.files, ...props.modelValue])
+  else
+    emit('update:modelValue', target.files[0])
+}
+
+const input = ref<HTMLInputElement>(null)
 function openDialog() {
-  inputRef.value.click()
+  input.value.click()
 }
 
 provide('openDialog', openDialog)
 </script>
 
 <template>
-  <input ref="inputRef" :accept="accept" style="display: none;" type="file" @change="$emit('update:modelValue', ($event.target as HTMLInputElement).files[0])">
+  <input ref="input" :accept="accept" :multiple="multiple" style="display: none;" type="file" @change="updateModelValue">
   <slot :open-dialog="openDialog" />
 </template>
