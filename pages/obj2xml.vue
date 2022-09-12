@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 const { getContent } = useFile()
-const { parseObj, generateXml } = useObj()
+const { parseObj, parseMtl, generateXml } = useObj()
 
 const files = ref<File[]>([])
 const source = ref(null)
@@ -12,16 +12,17 @@ const source = ref(null)
 const { copy, copied } = useClipboard({ source })
 
 async function onSubmit() {
-  const content = (await getContent(files.value[0])).split('\n')
-  const obj = parseObj(content, null)
-  source.value = generateXml(obj)
+  const objContent = (await getContent(files.value.find(x => x.name.endsWith('.obj')))).split('\n')
+  const mtlContent = (await getContent(files.value.find(x => x.name.endsWith('.mtl'))))?.split('\n')
+
+  source.value = generateXml(parseObj(objContent, mtlContent !== undefined ? parseMtl(mtlContent) : null))
   copy(source.value)
 }
 </script>
 
 <template>
   <section class="w-2/3 p-4 h-full">
-    <base-file v-model="files" :multiple="true">
+    <base-file v-model="files" accept="model/obj, model/mtl" :multiple="true">
       <div class="block flex flex-col justify-center items-center h-full">
         <div id="container" class="mb-4" />
         <ul v-if="files.length > 0" class="mb-2">

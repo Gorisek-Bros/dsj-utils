@@ -19,9 +19,9 @@ export default function () {
       }
 
       if (line[0] === 'Kd') {
-        const r = Number.parseFloat(line[1]) * 255
-        const g = Number.parseFloat(line[2]) * 255
-        const b = Number.parseFloat(line[3]) * 255
+        const r = Math.round(Number.parseFloat(line[1]) * 255)
+        const g = Math.round(Number.parseFloat(line[2]) * 255)
+        const b = Math.round(Number.parseFloat(line[3]) * 255)
 
         materials.at(-1).diffuse = rgbToHex(r, g, b)
       }
@@ -54,7 +54,7 @@ export default function () {
       }
 
       if (line[0].startsWith('usemtl')) {
-        const diffuseExists = materials.some(x => x.name === line[1])
+        const diffuseExists = materials?.some(x => x.name === line[1])
         batches.push({
           id: `${line[1]}_${Math.random()}`,
           diffuse: diffuseExists ? materials.find(x => x.name === line[1]).diffuse : '0xFFFFFF',

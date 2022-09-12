@@ -4,6 +4,9 @@ export default function () {
   }
 
   async function getContent(file: File) {
+    if (!file)
+      return null
+
     const buffer = await file.arrayBuffer()
     const blob = new Blob([buffer])
     return blob.text()
