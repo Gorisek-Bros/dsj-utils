@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DialogButton, FileSelector } from 'vue3-file-selector'
 import type { Settings } from '~~/types/Settings'
 
 definePageMeta({
@@ -16,8 +15,8 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 const img = ref<HTMLImageElement | null>(null)
 
 // Files
-const files = ref<File[]>([])
-const previews = ref<string[]>([])
+const file = ref<File>(null)
+const preview = ref<string>(null)
 
 // Form
 const settings = reactive<Settings>({
@@ -42,7 +41,7 @@ const settings = reactive<Settings>({
     twigs: false,
   },
 })
-const canBeSent = computed(() => previews.value.length !== 0 && Object.values(settings.tags).some(x => !!x))
+const canBeSent = computed(() => preview.value !== '' && Object.values(settings.tags).some(x => !!x))
 
 const originCoordinates = reactive({
   z0: 0,
@@ -68,6 +67,24 @@ watch(() => ({ ...settings }), (previousSettings, newSettings) => {
 const source = ref<string>(null)
 
 watch(() => settings.scalingFactor, async () => {
+  await resizeImage()
+  calculateOriginCoordinates()
+})
+
+async function drawImage() {
+  if (settings.scalingFactor === 1) {
+    canvas.value.width = img.value.naturalWidth
+    canvas.value.height = img.value.naturalHeight
+    canvas.value.getContext('2d').drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
+  }
+  else {
+    await resizeImage()
+  }
+
+  calculateOriginCoordinates()
+}
+
+async function resizeImage() {
   const image = await createImageBitmap(img.value, { resizeHeight: img.value.naturalHeight / (settings.scalingFactor || 1), resizeWidth: img.value.naturalWidth / (settings.scalingFactor || 1) })
   const context = canvas.value.getContext('2d')
 
@@ -76,24 +93,9 @@ watch(() => settings.scalingFactor, async () => {
 
   context.clearRect(0, 0, canvas.value.width, canvas.value.height)
   context.drawImage(image, 0, 0, image.width, image.height)
-
-  calculateOriginCoordinates()
-})
-
-function drawImage() {
-  canvas.value.width = img.value.naturalWidth
-  canvas.value.height = img.value.naturalHeight
-  canvas.value.getContext('2d').drawImage(img.value, 0, 0, img.value.naturalWidth, img.value.naturalHeight)
-  calculateOriginCoordinates()
 }
 
-function clearImage() {
-  canvas.value.getContext('2d').clearRect(0, 0, canvas.value.width, canvas.value.height)
-  canvas.value.width = canvas.value.height = 0
-  files.value = previews.value = []
-}
-
-watch(files, async () => previews.value = await Promise.all(files.value.map(file => toBlob(file))))
+watch(file, async () => preview.value = await toBlob(file.value))
 
 // Form handling
 const { copy, copied } = useClipboard({ source })
@@ -106,26 +108,18 @@ function onSubmit() {
 
 <template>
   <section class="w-2/3 p-4 h-full">
-    <FileSelector v-model="files">
+    <base-file v-model="file">
       <div class="block flex flex-col justify-center items-center h-full">
         <canvas ref="canvas" class="mb-4" height="0" width="0" />
-        <img ref="img" class="hidden" :src="previews[0]" @load="drawImage">
-        <ul v-if="files.length > 0" class="mb-2">
-          <li v-for="file in files" :key="file.name">
-            {{ file.name }}
-          </li>
-        </ul>
-        <span v-else class="mb-2">Awaiting...</span>
+        <img ref="img" class="hidden" :src="preview" @load="drawImage">
+        <span class="mb-2">{{ !!file ? file.name : `Awaiting...` }}</span>
         <div class="flex gap-1">
-          <DialogButton class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
+          <base-file-button class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
             Upload file
-          </DialogButton>
-          <base-button :disabled="files.length === 0" secondary @click="clearImage">
-            Dispose file
-          </base-button>
+          </base-file-button>
         </div>
       </div>
-    </FileSelector>
+    </base-file>
   </section>
   <hr class="h-full border-r">
   <aside class="w-1/3 p-4 h-full">
