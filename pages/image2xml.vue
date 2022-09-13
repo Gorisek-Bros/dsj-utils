@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ImgSettings } from '~~/types/ImgSettings'
+import type { ImgSettings } from '~~/types/settings/ImgSettings'
 
 definePageMeta({
   layout: 'main',
