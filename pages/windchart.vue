@@ -63,82 +63,84 @@ function calculate() {
 </script>
 
 <template>
-  <section class="w-2/3 px-6 h-full border-r">
-    <h1 class="text-3xl font-bold mt-5 mb-1">
-      Wind Chart
-    </h1>
-    <p>Use this utility to setup gates in your hill. Hover on chart to see wind direction and speed.</p>
-    <div class="mt-6">
-      <svg id="chart" height="800" viewBox="-250 -250 500 500" width="800" @load="calculate" @mousemove="getCoordinates">
-        <defs>
-          <clipPath id="mask">
-            <circle id="maskc" cx="0" cy="0" fill="none" r="200" stroke="#000" stroke-width="0" />
-          </clipPath>
-        </defs>
-        <circle cx="0" cy="0" r="100" style="fill:none;stroke:#000000;stroke-width: 1.5px" />
-        <circle cx="0" cy="0" r="200" style="fill:none;stroke:#000000;stroke-width: 1.5px" />
-        <circle cx="0" cy="0" r="180" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="160" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="140" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="120" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="80" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="60" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="40" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <circle cx="0" cy="0" r="20" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
-        <line style="fill:none;stroke:#000000;stroke-width: 1px" x1="-200" x2="200" y1="0" y2="0" />
-        <line style="fill:none;stroke:#000000;stroke-width: 1px" x1="0" x2="0" y1="-200" y2="200" />
-      </svg>
-    </div>
-  </section>
-  <aside class="w-1/3 p-4 h-full">
-    <div class="flex flex-col gap-8">
-      <div>
-        <div class="flex items-center gap-4 mb-4">
-          <span class="flex gap-2 items-center">
-            <div class="i-heroicons-cog-8-tooth-solid text-2xl p-2" />
-            <h1 class="text-2xl font-semibold">Settings</h1>
-          </span>
-          <hr class="h-1 w-full">
+  <div class="flex h-full w-full">
+    <section class="w-2/3 px-6 h-full border-r">
+      <h1 class="text-3xl font-bold mt-5 mb-1">
+        Wind Chart
+      </h1>
+      <p>Use this utility to setup gates in your hill. Hover on chart to see wind direction and speed.</p>
+      <div class="mt-6">
+        <svg id="chart" height="800" viewBox="-250 -250 500 500" width="800" @load="calculate" @mousemove="getCoordinates">
+          <defs>
+            <clipPath id="mask">
+              <circle id="maskc" cx="0" cy="0" fill="none" r="200" stroke="#000" stroke-width="0" />
+            </clipPath>
+          </defs>
+          <circle cx="0" cy="0" r="100" style="fill:none;stroke:#000000;stroke-width: 1.5px" />
+          <circle cx="0" cy="0" r="200" style="fill:none;stroke:#000000;stroke-width: 1.5px" />
+          <circle cx="0" cy="0" r="180" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="160" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="140" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="120" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="80" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="60" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="40" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <circle cx="0" cy="0" r="20" style="fill:none;stroke:#000000;stroke-width: 0.5px" />
+          <line style="fill:none;stroke:#000000;stroke-width: 1px" x1="-200" x2="200" y1="0" y2="0" />
+          <line style="fill:none;stroke:#000000;stroke-width: 1px" x1="0" x2="0" y1="-200" y2="200" />
+        </svg>
+      </div>
+    </section>
+    <aside class="w-1/3 p-4 h-full">
+      <div class="flex flex-col gap-8">
+        <div>
+          <div class="flex items-center gap-4 mb-4">
+            <span class="flex gap-2 items-center">
+              <div class="i-heroicons-cog-8-tooth-solid text-2xl p-2" />
+              <h1 class="text-2xl font-semibold">Settings</h1>
+            </span>
+            <hr class="h-1 w-full">
+          </div>
+          <div>
+            <base-input v-model="form.wind" description="wind" label="Hill definition wind" min="0" required step="0.01" type="number" />
+            <base-input
+              v-model="form.default" description="default" label="Hill definition default gate" min="0" required
+              type="number"
+            />
+            <base-input v-model="form.minGate" description="min-gate" label="Hill definition min gate" min="0" required type="number" />
+            <base-input v-model="form.maxGate" description="max-gate" label="Hill definition max gate" min="0" required type="number" />
+          </div>
         </div>
         <div>
-          <base-input v-model="form.wind" description="wind" label="Hill definition wind" min="0" required step="0.01" type="number" />
-          <base-input
-            v-model="form.default" description="default" label="Hill definition default gate" min="0" required
-            type="number"
-          />
-          <base-input v-model="form.minGate" description="min-gate" label="Hill definition min gate" min="0" required type="number" />
-          <base-input v-model="form.maxGate" description="max-gate" label="Hill definition max gate" min="0" required type="number" />
+          <div class="flex gap-4 items-center mb-4">
+            <span class="flex gap-2 items-center">
+              <div class="i-heroicons-information-circle-solid text-2xl p-2" />
+              <h1 class="text-2xl font-semibold">Informations</h1>
+            </span>
+            <hr class="h-1 w-full">
+          </div>
+          <table class="w-full">
+            <tbody>
+              <tr>
+                <th class="text-left">
+                  Wind direction:
+                </th>
+                <td id="windDirection">
+                  0
+                </td>
+              </tr>
+              <tr>
+                <th class="text-left">
+                  Wind speed:
+                </th>
+                <td id="windSpeed">
+                  0
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div>
-        <div class="flex gap-4 items-center mb-4">
-          <span class="flex gap-2 items-center">
-            <div class="i-heroicons-information-circle-solid text-2xl p-2" />
-            <h1 class="text-2xl font-semibold">Informations</h1>
-          </span>
-          <hr class="h-1 w-full">
-        </div>
-        <table class="w-full">
-          <tbody>
-            <tr>
-              <th class="text-left">
-                Wind direction:
-              </th>
-              <td id="windDirection">
-                0
-              </td>
-            </tr>
-            <tr>
-              <th class="text-left">
-                Wind speed:
-              </th>
-              <td id="windSpeed">
-                0
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </aside>
+    </aside>
+  </div>
 </template>

@@ -45,28 +45,30 @@ async function onSubmit() {
 </script>
 
 <template>
-  <section class="w-2/3 p-4 h-full">
-    <base-file v-model="files" :accept="getAllowedFormats()" :multiple="true">
-      <div class="block flex flex-col justify-center items-center h-full">
-        <div id="container" class="mb-4" />
-        <ul v-if="files.length > 0" class="mb-2">
-          <li v-for="file in files" :key="file.name">
-            {{ file.name }}
-          </li>
-        </ul>
-        <span v-else class="mb-2">Awaiting...</span>
-        <div class="flex gap-1">
-          <base-file-button>
-            Upload file
-          </base-file-button>
-          <base-button v-if="!copied" :disabled="!canBeSent" secondary @click="onSubmit">
-            Generate XML
-          </base-button>
-          <base-button v-else secondary>
-            Copied!
-          </base-button>
+  <div class="flex h-full w-full">
+    <section class="p-4 h-full w-full">
+      <base-file v-model="files" :accept="getAllowedFormats()" :multiple="true">
+        <div class="block flex flex-col justify-center items-center h-full">
+          <div id="container" class="mb-4" />
+          <ul v-if="files.length > 0" class="mb-2">
+            <li v-for="file in files" :key="file.name">
+              {{ file.name }}
+            </li>
+          </ul>
+          <span v-else class="mb-2">Awaiting...</span>
+          <div class="flex gap-1">
+            <base-file-button>
+              Upload file
+            </base-file-button>
+            <base-button v-if="!copied" :disabled="!canBeSent" secondary @click="onSubmit">
+              Generate XML
+            </base-button>
+            <base-button v-else secondary>
+              Copied!
+            </base-button>
+          </div>
         </div>
-      </div>
-    </base-file>
-  </section>
+      </base-file>
+    </section>
+  </div>
 </template>
