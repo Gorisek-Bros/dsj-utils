@@ -114,7 +114,7 @@ function onSubmit() {
         <canvas ref="canvas" class="mb-4" height="0" width="0" />
         <img ref="img" class="hidden" :src="preview" @load="drawImage">
         <span class="mb-2">{{ !!file ? file.name : `Awaiting...` }}</span>
-        <base-file-button class="bg-blue-600 hover:bg-blue-700 rounded text-white px-4 py-2">
+        <base-file-button>
           Upload file
         </base-file-button>
       </div>

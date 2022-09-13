@@ -19,7 +19,7 @@ export default function () {
 
     const buffer = await file.arrayBuffer()
     const blob = new Blob([buffer])
-    return blob.text()
+    return (await blob.text()).split('\n')
   }
 
   return {
