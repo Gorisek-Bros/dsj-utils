@@ -7,6 +7,11 @@ import { distinct } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
 
 export default function () {
+  /**
+   *
+   * @param input
+   * @returns Material data from given input
+   */
   function parseMtl(input: string[]) {
     const materials: Mtl[] = []
     for (let i = 0; i < input.length; i++) {
@@ -30,6 +35,12 @@ export default function () {
     return materials
   }
 
+  /**
+   *
+   * @param input
+   * @param materials
+   * @returns Parsed obj and mtl representation
+   */
   function parseObj(input: string[], materials: Mtl[]) {
     const batches = [] as Batch[]
     const vertices: Vertex[] = []
@@ -90,6 +101,11 @@ export default function () {
     return batches
   }
 
+  /**
+   *
+   * @param input
+   * @returns Face type of given face
+   */
   function getFaceType(input: string) {
     if (!input.includes('/')) {
       return FaceType.INDICE
@@ -110,6 +126,11 @@ export default function () {
     }
   }
 
+  /**
+   *
+   * @param batches
+   * @returns Generated XML from given batches
+   */
   function generateXml(batches: Batch[]) {
     const output: Model = {
       model: {

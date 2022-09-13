@@ -5,10 +5,25 @@ import { chunk, groupBySame } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
 
 export default function () {
+  /**
+   *
+   * @param settings
+   * @param width
+   * @param height
+   * @returns Origin coordinates of top left corner of the image based on the settings
+   */
   function getOriginCoordinates(settings: ImgSettings, width: number, height: number): [number, number] {
     return [(-width / (2 / settings.pixelSize) + settings.originDistance.z), Math.abs((height / (2 / settings.pixelSize)) - settings.originDistance.x)]
   }
 
+  /**
+   *
+   * @param context
+   * @param settings
+   * @param width
+   * @param height
+   * @returns Pixel data of given image including settings
+   */
   function getPixels(context: CanvasRenderingContext2D, settings: ImgSettings, width: number, height: number): string[][] {
     const imageData = context.getImageData(0, 0, width, height)
     const pixels: string[] = []
@@ -26,14 +41,33 @@ export default function () {
     return [...chunk(pixels, imageData.width)]
   }
 
+  /**
+   *
+   * @param pixels
+   * @returns Pixel data grouped by same color
+   */
   function mergePixels(pixels: string[][]): string[][][] {
     return pixels.map(x => groupBySame(x))
   }
 
+  /**
+   *
+   * @param settings
+   * @param pixels
+   * @returns Pixel data converted to one color
+   */
   function monocolorPixels(settings: ImgSettings, pixels: string[][]): string[][][] {
     return pixels.map(x => x.map(y => y !== null ? (settings.useColor.include ? settings.useColor.value.replace('#', '0x') : '0x000000') : null)).map(x => groupBySame(x))
   }
 
+  /**
+   *
+   * @param context
+   * @param settings
+   * @param width
+   * @param height
+   * @returns Generated XML from given image
+   */
   function generateXml(context: CanvasRenderingContext2D, settings: ImgSettings, width: number, height: number) {
     const { getPixels, mergePixels, monocolorPixels } = useImage()
     const { getOriginCoordinates } = useImage()
