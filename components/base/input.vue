@@ -3,7 +3,7 @@ defineProps<{
   modelValue: any
   description: string
   label: string
-  type: string
+  type?: string
   required?: boolean
   disabled?: boolean
   info?: string

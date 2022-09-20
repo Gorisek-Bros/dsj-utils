@@ -18,6 +18,9 @@
       <NuxtLink class="font-medium hover:underline" to="/obj2xml">
         Obj to XML
       </NuxtLink>
+      <NuxtLink class="font-medium hover:underline" to="/stairs">
+        Stairs Profile
+      </NuxtLink>
       <NuxtLink class="font-medium hover:underline" to="/polynom3">
         Polynom3 Visualizer
       </NuxtLink>

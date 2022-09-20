@@ -1,8 +1,8 @@
 import { create } from 'xmlbuilder2'
-import type { Model } from '~~/types/Model'
-import type { Mtl } from '~~/types/Mtl'
-import type { Batch, Vertex } from '~~/types/Obj'
-import { FaceType } from '~~/types/Obj'
+import type { Model } from '~~/types/elements/Model'
+import type { Mtl } from '~~/types/files/Mtl'
+import type { Batch, Vertex } from '~~/types/files/Obj'
+import { FaceType } from '~~/types/files/Obj'
 import { distinct } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
 

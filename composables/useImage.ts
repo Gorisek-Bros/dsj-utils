@@ -1,6 +1,6 @@
 import { create } from 'xmlbuilder2'
-import type { CustomMarkings, Line, Spray } from '~~/types/Marking'
-import type { ImgSettings } from '~~/types/ImgSettings'
+import type { CustomMarkings, Line, Spray } from '~~/types/elements/Marking'
+import type { ImgSettings } from '~~/types/settings/ImgSettings'
 import { chunk, groupBySame } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
 
