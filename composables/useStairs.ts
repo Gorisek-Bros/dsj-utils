@@ -24,13 +24,13 @@ export default function () {
 
     for (let i = settings.start; i < settings.end; i += settings.step) {
       output.profile.line.push({
-        '@x': i + settings.step - settings.offset,
+        '@x': Math.round((i + settings.step - settings.offset) * 1000) / 1000,
         '@y': settings.height,
-        '@refyx': i,
+        '@refyx': Math.round(i * 1000) / 1000,
         '@refy': settings.refy,
       })
       output.profile.line.push({
-        '@x': i + settings.step,
+        '@x': Math.round((i + settings.step) * 1000) / 1000,
         '@y': settings.height,
         '@refy': settings.refy,
       })

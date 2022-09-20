@@ -55,7 +55,7 @@ function onSubmit() {
             <base-input v-model.number="settings.step" description="step" label="Length of one step" required step="0.1" type="number" />
           </div>
           <div class="w-1/3">
-            <base-input v-model.number="settings.height" description="height" label="Height above Y profile" min="0.05" required type="number" />
+            <base-input v-model.number="settings.height" description="height" label="Height above Y profile" min="0.01" required step="0.01" type="number" />
           </div>
           <div class="w-1/3">
             <base-input v-model.number="settings.offset" description="offset" label="Length of drop between stairs in profile" max="0.05" min="0.001" required step="0.001" type="number" />
