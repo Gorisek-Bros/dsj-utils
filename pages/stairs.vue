@@ -47,7 +47,7 @@ function onSubmit() {
             <base-input v-model.number="settings.start" description="start" label="Starting X coordinate value for stairs" required />
           </div>
           <div class="w-1/2">
-            <base-input v-model.number="settings.end" description="end" label="Starting Y coordinate value for stairs" required />
+            <base-input v-model.number="settings.end" description="end" label="Ending X coordinate value for stairs" required />
           </div>
         </div>
         <div class="flex gap-1">
