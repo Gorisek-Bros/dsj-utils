@@ -28,8 +28,8 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
 </script>
 
 <template>
-  <div class="flex h-full w-full">
-    <section class="w-2/3 px-6 h-full border-r">
+  <div class="flex flex-col md:flex-row h-full w-full gap-8 md:gap-0">
+    <section class="w-full md:w-2/3 px-6 h-full border-none md:border-r">
       <h1 class="text-3xl font-bold mt-5 mb-1">
         H/N calculator
       </h1>
@@ -71,7 +71,7 @@ const computedN = computed(() => ((form.k * Math.cos(Math.atan(form.h2n))) / 1.0
         </div>
       </div>
     </section>
-    <aside class="w-1/3 p-4 h-full">
+    <aside class="w-full md:w-1/3 p-4 h-full">
       <div class="flex gap-4 items-center mb-4">
         <span class="flex gap-2 items-center">
           <div class="i-heroicons-cog-8-tooth-solid text-2xl p-2" />

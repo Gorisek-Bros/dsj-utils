@@ -63,8 +63,8 @@ function calculate() {
 </script>
 
 <template>
-  <div class="flex h-full w-full">
-    <section class="w-2/3 px-6 h-full border-r">
+  <div class="flex flex-col md:flex-row h-full w-full gap-8 md:gap-0">
+    <section class="w-full md:w-2/3 px-6 h-full border-none md:border-r">
       <h1 class="text-3xl font-bold mt-5 mb-1">
         Wind Chart
       </h1>
@@ -91,7 +91,7 @@ function calculate() {
         </svg>
       </div>
     </section>
-    <aside class="w-1/3 p-4 h-full">
+    <aside class="w-full md:w-1/3 p-4 h-full">
       <div class="flex flex-col gap-8">
         <div>
           <div class="flex items-center gap-4 mb-4">
