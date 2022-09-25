@@ -24,6 +24,9 @@
       <NuxtLink class="font-medium hover:underline" to="/polynom3">
         Polynom3 Visualizer
       </NuxtLink>
+      <NuxtLink class="font-medium hover:underline" to="/dsj2nft">
+        DSJ2 NFT
+      </NuxtLink>
     </div>
   </nav>
 </template>
