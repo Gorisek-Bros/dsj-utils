@@ -108,8 +108,8 @@ function onSubmit() {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row h-full w-full gap-8 md:gap-0">
-    <section class="w-full md:w-2/3 px-6 h-full border-none md:border-r">
+  <div class="flex h-full w-full">
+    <section class="w-2/3 p-4 h-full">
       <base-file v-model="file" accept="image/png, image/jpeg, image/jpg">
         <div class="block flex flex-col justify-center items-center h-full">
           <canvas ref="canvas" class="mb-4" height="0" width="0" />
@@ -121,7 +121,8 @@ function onSubmit() {
         </div>
       </base-file>
     </section>
-    <aside class="w-full md:w-1/3 p-4 h-full">
+    <hr class="h-full border-r">
+    <aside class="w-1/3 p-4 h-full">
       <div class="flex flex-col gap-8">
         <div>
           <div class="flex gap-4 items-center mb-4">
