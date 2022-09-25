@@ -44,7 +44,18 @@ export default function () {
   function parseObj(input: string[], materials: Mtl[]) {
     const batches = [] as Batch[]
     const vertices: Vertex[] = []
+    let hasUseMtl = true
     let index = 1
+
+    if (!input.some(x => x.startsWith('usemtl'))) {
+      hasUseMtl = false
+      batches.push({
+        id: `model_${Math.random()}`,
+        diffuse: '0xFFFFFF',
+        vertices: [],
+        faces: [],
+      })
+    }
 
     for (let i = 0; i < input.length; i++) {
       const line: string[] = input[i].split(/\s+/)
@@ -59,7 +70,7 @@ export default function () {
         index++
       }
 
-      if (line[0].startsWith('usemtl')) {
+      if (line[0].startsWith('usemtl') && hasUseMtl) {
         const diffuseExists = materials?.some(x => x.name === line[1])
         batches.push({
           id: `${line[1]}_${Math.random()}`,
