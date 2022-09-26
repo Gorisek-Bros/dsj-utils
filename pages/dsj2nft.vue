@@ -1,15 +1,13 @@
 <script setup lang="ts">
+import { Canvg } from 'canvg'
+import type { Ref } from 'vue'
+
 definePageMeta({
   layout: 'main',
 })
 
-// background: { value: "#e0f2fe", label: 'Tło' },
-//         helmet: { value: "#7289BA", label: 'Kask' },
-//         suit: { value: "#FAFAFA", label: 'Kombinezon' },
-//         sleeves: { value: "#1E40AF", label: 'Rękawy' },
-//         gloves: { value: "#111827", label: 'Rękawice' },
-//         trousers: { value: "#1E3A8A", label: 'Spodnie' },
-//         skis: { value: "#BEF264", label: 'Narty' }
+const canvas = ref<HTMLCanvasElement>(null)
+const jumper = inject('jumper')
 
 const settings = reactive({
   background: '#E0F2FE',
@@ -20,6 +18,17 @@ const settings = reactive({
   trousers: '#1E3A8A',
   skis: '#BEF264',
 })
+const isBeingGenerated = ref(false)
+const img = ref('')
+
+function onClick() {
+  const context = canvas.value.getContext('2d')!
+  const v = Canvg.fromString(context, (jumper as Ref<HTMLElement>).value.outerHTML)
+  v.start()
+
+  img.value = canvas.value.toDataURL('img/png', 1.0)
+  isBeingGenerated.value = false
+}
 </script>
 
 <template>
@@ -64,9 +73,13 @@ const settings = reactive({
                 <base-input v-model="settings.skis" description="skis" label="Skis" required type="color" />
               </div>
             </div>
+            <base-button as="a" download :href="img" @click.prevent="onClick">
+              Download
+            </base-button>
           </div>
         </div>
       </div>
     </aside>
+    <canvas ref="canvas" height="1088" width="1088" />
   </div>
 </template>

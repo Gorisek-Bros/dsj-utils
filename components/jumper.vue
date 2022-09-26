@@ -9,10 +9,13 @@ defineProps<{
   skis: string
   large?: boolean
 }>()
+
+const jumper = ref<HTMLElement | HTMLOrSVGElement>(null)
+provide('jumper', jumper)
 </script>
 
 <template>
-  <svg id="jumper" fill="none" :height="large ? 1088 : 272" viewBox="0 0 1088 1088" :width="large ? 1088 : 272" xmlns="http://www.w3.org/2000/svg">
+  <svg ref="jumper" fill="none" :height="large ? 1088 : 272" viewBox="0 0 1088 1088" :width="large ? 1088 : 272" xmlns="http://www.w3.org/2000/svg">
     <rect :fill="background" height="1024" rx="512" width="1024" x="32" y="32" />
     <circle cx="544" cy="544" r="528" stroke="#FBBF24" stroke-width="32" />
     <path d="M424 624H400V648H496V620H544V600H616V576H640V556H660V536H684V512H592V472H568V492H520V512H472V540H420V580H448V600H424V624Z" fill="#111827" />
