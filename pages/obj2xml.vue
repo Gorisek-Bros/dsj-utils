@@ -33,6 +33,8 @@ const canBeSent = computed(() => {
     return false
   else if (allowedFormats === '.mtl')
     return true
+
+  return true
 })
 
 async function onSubmit() {
