@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ImgSettings } from '~~/types/settings/ImgSettings'
+import type { ImgSettings } from '~~/types/settings/ImgSettings';
 
 definePageMeta({
   layout: 'main',
@@ -137,10 +137,10 @@ function onSubmit() {
             <base-input v-model.number="settings.scalingFactor" description="scaling-factor" label="Scaling factor" min="0" required type="number" />
             <div class="flex gap-1">
               <div class="w-1/2">
-                <base-input v-model.number="settings.originDistance.x" description="origin-x" label="Origin distance relative to X axis" required type="number" />
+                <base-input v-model.number="settings.originDistance.x" description="origin-x" label="Origin distance relative to X axis" required step="0.1" type="number" />
               </div>
               <div class="w-1/2">
-                <base-input v-model.number="settings.originDistance.z" description="origin-z" label="Origin distance relative to Z axis" required type="number" />
+                <base-input v-model.number="settings.originDistance.z" description="origin-z" label="Origin distance relative to Z axis" required step="0.1" type="number" />
               </div>
             </div>
             <div class="flex gap-1">

@@ -52,7 +52,7 @@ function onSubmit() {
         </div>
         <div class="flex gap-1">
           <div class="w-1/3">
-            <base-input v-model.number="settings.step" description="step" label="Length of one step" required step="0.01" type="number" />
+            <base-input v-model.number="settings.step" description="step" label="Length of one step" required step="0.001" type="number" />
           </div>
           <div class="w-1/3">
             <base-input v-model.number="settings.height" description="height" label="Height above Y profile" required step="0.01" type="number" />
