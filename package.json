@@ -8,22 +8,22 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.26.3",
-    "@iconify-json/heroicons": "^1.1.3",
-    "@types/three": "^0.144.0",
-    "@unocss/nuxt": "^0.45.18",
-    "@unocss/preset-icons": "^0.45.18",
-    "@vueuse/core": "^9.2.0",
-    "@vueuse/nuxt": "^9.2.0",
-    "eslint": "^8.23.0",
-    "eslint-plugin-vue": "^9.4.0",
-    "nuxt": "^3.0.0-rc.9"
+    "@antfu/eslint-config": "^0.34.0",
+    "@iconify-json/heroicons": "^1.1.6",
+    "@types/three": "^0.146.0",
+    "@unocss/nuxt": "^0.48.0",
+    "@unocss/preset-icons": "^0.48.0",
+    "@vueuse/core": "^9.8.2",
+    "@vueuse/nuxt": "^9.8.2",
+    "eslint": "^8.30.0",
+    "eslint-plugin-vue": "^9.8.0",
+    "nuxt": "^3.0.0"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.4.2",
-    "@unocss/reset": "^0.45.18",
-    "pinia": "^2.0.22",
-    "three": "^0.144.0",
+    "@pinia/nuxt": "^0.4.6",
+    "@unocss/reset": "^0.48.0",
+    "pinia": "^2.0.28",
+    "three": "^0.148.0",
     "xmlbuilder2": "^3.0.2"
   }
 }
