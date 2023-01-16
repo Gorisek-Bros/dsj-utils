@@ -3,6 +3,7 @@ import type { CustomMarkings, Line, Spray } from '~~/types/elements/Marking'
 import type { ImgSettings } from '~~/types/settings/ImgSettings'
 import { chunk, groupBySame } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
+import useImage from '~~/composables/useImage'
 
 export default function () {
   /**
