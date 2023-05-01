@@ -39,6 +39,7 @@ const settings = reactive<ImgSettings>({
     spray: false,
     twigs: false,
   },
+  includeRootTag: false
 })
 const canBeSent = computed(() => preview.value !== '' && Object.values(settings.tags).some(x => !!x))
 
@@ -171,6 +172,9 @@ function onSubmit() {
               </div>
               <div class="flex items-center flex-row-reverse gap-1">
                 <base-checkbox v-model.boolean="settings.useColor.include" label="Use given color" />
+              </div>
+              <div class="flex items-center flex-row-reverse gap-1">
+                <base-checkbox v-model.boolean="settings.includeRootTag" label="Include root tag" />
               </div>
             </div>
             <base-button :disabled="!canBeSent" type="submit">

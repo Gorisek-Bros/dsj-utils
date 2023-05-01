@@ -5,6 +5,7 @@ interface ImgSettings {
   pixelSize: number
   useColor: OptionalImgSetting
   tags: Record<'banner' | 'line' | 'spray' | 'twigs', boolean>
+  includeRootTag: boolean
 }
 
 interface OptionalImgSetting {

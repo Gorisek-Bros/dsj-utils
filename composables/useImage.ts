@@ -165,7 +165,19 @@ export default function () {
       }
     }
 
-    return create(output).end({ prettyPrint: true, headless: true })
+    var result = create(output).end({ prettyPrint: true, headless: true })
+    console.log(settings)
+    if (!settings.includeRootTag) {
+      result = result.replace('<custom-markings>', '').replace('</custom-markings>', '')
+                .replace('<winter>', '').replace('<summer>', '')
+                .replace('</winter>', '').replace('</summer>', '')
+                .split("\n")
+                .map(x => x.trim())
+                .filter(x => x !== '')
+                .join("\n")
+    }
+
+    return result
   }
 
   return {
