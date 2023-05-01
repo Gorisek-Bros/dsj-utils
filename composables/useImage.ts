@@ -1,9 +1,9 @@
 import { create } from 'xmlbuilder2'
+import useImage from '~~/composables/useImage'
 import type { CustomMarkings, Line, Spray } from '~~/types/elements/Marking'
 import type { ImgSettings } from '~~/types/settings/ImgSettings'
 import { chunk, groupBySame } from '~~/utils/array'
 import { rgbToHex } from '~~/utils/color'
-import useImage from '~~/composables/useImage'
 
 export default function () {
   /**
@@ -165,16 +165,15 @@ export default function () {
       }
     }
 
-    var result = create(output).end({ prettyPrint: true, headless: true })
-    console.log(settings)
+    let result = create(output).end({ prettyPrint: true, headless: true })
     if (!settings.includeRootTag) {
       result = result.replace('<custom-markings>', '').replace('</custom-markings>', '')
-                .replace('<winter>', '').replace('<summer>', '')
-                .replace('</winter>', '').replace('</summer>', '')
-                .split("\n")
-                .map(x => x.trim())
-                .filter(x => x !== '')
-                .join("\n")
+        .replace('<winter>', '').replace('<summer>', '')
+        .replace('</winter>', '').replace('</summer>', '')
+        .split('\n')
+        .map(x => x.trim())
+        .filter(x => x !== '')
+        .join('\n')
     }
 
     return result
